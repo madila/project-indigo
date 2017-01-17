@@ -7,7 +7,7 @@
     <title>Welcome to Project Indigo</title>
 
 
-    <script type='text/javascript'>/* <![CDATA[ */var indigo = { 'site_url': 'http://localhost:63342/project-indigo/', 'vendor_url': './dist/vendor', 'css_url': './dist/css/', 'indigo_url': './dist/js', 'components_url': '/project-indigo/dist/components/' };/* ]]> */</script>
+    <script type='text/javascript'>/* <![CDATA[ */var indigo = { 'site_name': 'Project Indigo', 'site_title': 'Welcome to Project Indigo', 'site_url': 'http://localhost:63342/project-indigo/', 'vendor_url': '/project-indigo/dist/vendor', 'css_url': '/project-indigo/dist/css/', 'indigo_url': '/project-indigo/dist/js', 'components_url': '/project-indigo/dist/components/' };/* ]]> */</script>
 
 
     <!--[if lt IE 9]>
@@ -18,13 +18,17 @@
 
 
     <script src="/project-indigo/dist/js/polyfills.js"></script>
-    <link href="/project-indigo/dist/css/core.css" rel="stylesheet">
+
+    <!--<link href="/project-indigo/dist/css/core.css" rel="stylesheet">-->
     <link rel="import" href="/project-indigo/dist/vendor/polymer/polymer.html">
+
 </head>
 <body>
-<nav is="app-sidebar" unresolved="true" data-import></nav>
-<!--<script type="text/javascript" src="dist/js/fontLoading.js"></script>-->
-<script type='text/javascript' src='/project-indigo/dist/vendor/system.src.js'></script>
-<script type='text/javascript' src="/project-indigo/dist/js/systemjs-config.js"></script>
+
+    <nav is="app-sidebar" unresolved="true" data-import site-name="Project Indigo" site-url="/project-indigo/dist/index.html"></nav>
+    <a href="/project-indigo/something/index.html">Something</a>
+    <!--<script type="text/javascript" src="dist/js/fontLoading.js"></script>-->
+    <script type='text/javascript' src='/project-indigo/dist/vendor/system.src.js'></script>
+    <script type='text/javascript' src="/project-indigo/dist/js/systemjs-config.js"></script>
 </body>
 </html>

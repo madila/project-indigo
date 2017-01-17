@@ -5,6 +5,7 @@
   "version": "1.0.1",
   "homepage": "https://github.com/OllieFordandCo/project-indigo",
   "config": {
+    "site_name": "Project Indigo",
     "site_title": "Welcome to Project Indigo",
     "site_url" : "http://localhost:63342/project-indigo/",
     "preconnect": ["https://api.esvibe.com"],
@@ -13,21 +14,21 @@
       "src_url": "/project-indigo/src/components/"
     },
     "html": {
-      "dist_url": "./dist/",
-      "src_url": "./src/"
+      "dist_url": "/project-indigo/dist/",
+      "src_url": "/project-indigo/src/"
     },
     "scss": {
-      "dist_url": "./src/css/",
-      "src_url": "./src/scss/"
+      "dist_url": "/project-indigo/src/css/",
+      "src_url": "/project-indigo/src/scss/"
     },
     "postcss": {
-      "dist_url": "./dist/css/",
-      "src_url": "./src/css/"
+      "dist_url": "/project-indigo/dist/css/",
+      "src_url": "/project-indigo/src/css/"
     },
     "js": {
-      "indigo_url": "./dist/js",
-      "vendor_url": "./dist/vendor",
-      "src_url": "./src/js",
+      "indigo_url": "/project-indigo/dist/js",
+      "vendor_url": "/project-indigo/dist/vendor",
+      "src_url": "/project-indigo/src/js",
       "modules": [
         "src/vendor/system.js/dist/system.js",
         "src/vendor/system.js/dist/system.src.js",

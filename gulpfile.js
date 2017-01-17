@@ -31,7 +31,7 @@ gulp.task('refreshCss', ['sass']);
 
 gulp.task('refreshJs', ['js-modules', 'polymer', 'uglify-vendor']);
 
-gulp.task('indigo-dist', ['lint', 'indigo']);
+gulp.task('indigo-dist', ['lint', 'babel', 'indigo']);
 
 var fs = require('fs');
 var indigo = JSON.parse(fs.readFileSync('./indigo.json'));
@@ -128,7 +128,7 @@ gulp.task('polymer', function() {
  * Extracting Main Javascript of the Application the dist/js for Distribution
  */
 
-gulp.task('indigo', function () {
+gulp.task('babel', function () {
 
     var streams = [];
     var stream = gulp.src('src/js/indigo/es2015/**/*.js')
@@ -138,6 +138,13 @@ gulp.task('indigo', function () {
         }))
         .pipe(gulp.dest('src/js/indigo/es5'));
     streams.push(stream);
+    return $.merge(streams);
+
+});
+
+gulp.task('indigo', function () {
+
+    var streams = [];
     stream = gulp.src('src/js/indigo/es5/**/*.js')
         .pipe($.uglify())
         .pipe(gulp.dest('dist/js'));
@@ -185,13 +192,15 @@ gulp.task('htmlreplace', function() {
             },
             "settings": {
                 "src" : [[
+                    indigo.config.site_name,
+                    indigo.config.site_title,
                     indigo.config.site_url,
                     indigo.config.js.vendor_url,
                     indigo.config.postcss.dist_url,
                     indigo.config.js.indigo_url,
                     indigo.config.webcomponents.dist_url
                 ]],
-                "tpl": "<script type='text/javascript'>/* <![CDATA[ */var indigo = { 'site_url': '%s', 'vendor_url': '%s', 'css_url': '%s', 'indigo_url': '%s', 'components_url': '%s' };/* ]]> */</script>"
+                "tpl": "<script type='text/javascript'>/* <![CDATA[ */var indigo = { 'site_name': '%s', 'site_title': '%s', 'site_url': '%s', 'vendor_url': '%s', 'css_url': '%s', 'indigo_url': '%s', 'components_url': '%s' };/* ]]> */</script>"
             }
         }))
         .pipe(gulp.dest('./dist/'));

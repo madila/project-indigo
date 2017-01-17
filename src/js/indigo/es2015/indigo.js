@@ -4,7 +4,7 @@ export class App {
         this._importedElements = [];
 
         /* Debug mode
-         if (window.hasOwnProperty('esvibe') && !window.esvibe.debug) {
+         if (window.hasOwnProperty('indigo') && !window.indigo.debug) {
          console = console || {};
          console.log = function () {
          };
@@ -41,6 +41,7 @@ export class App {
     }
 
     initRouter() {
+        let _self = this;
         Promise.all([
             System.import('director'),
             System.import('router')
@@ -51,10 +52,10 @@ export class App {
             console.log('Router Initialised as a window global...');
 
             document.documentElement.className = 'js';
-            window.App.captureLinks();
+            _self.captureLinks();
 
             // Dispatch the event.
-            window.dispatchEvent(new CustomEvent('systemReady'));
+            window.dispatchEvent(new CustomEvent('routerReady'));
 
         }, function (err) {
             console.log(err);
@@ -121,17 +122,9 @@ export class App {
 
     }
 
-    findAndLoadElements() {
-        let components = [].slice.call(document.querySelectorAll("[data-import]"));
-        if(components.length > 0) {
-            window.App.lazyLoadElements(components);
-            window.App.captureLinks();
-        }
-    }
-
     // Setup Link Click Events
-    updateElements() {
-        let components = [].slice.call(document.querySelectorAll("[data-import]"));
+    updateElements(components) {
+        components = (components == undefined) ? [].slice.call(document.querySelectorAll("[data-import]")) : components;
         if (components.length > 0) {
             this.lazyLoadElements(components);
         }
@@ -141,28 +134,33 @@ export class App {
     onClickEventHandler(event) {
         // Set the  to loading
         console.log('System is handling link event');
-        if (this.href.indexOf(window.esvibe.site_url) > -1) {
+        // Check if the link contains the site url (relative urls have the domain appended to the href attribute).
+        if (event.target.href.indexOf(window.indigo.site_url) > -1) {
             event.preventDefault();
-            let link = this;
+            console.log('router');
+            let link = event.target;
             if (link.href !== window.location.href) {
                 //link.setAttribute('disabled', true);
-                window.router.setRoute(this.href);
+                window.router.setRoute(event.target.href);
             }
         }
     }
 
-    captureLinks() {
-        let links = document.querySelectorAll('a[href]');
+    captureLinks(links) {
+        links = (links == undefined) ? document.querySelectorAll('a[href]') : links;
         for (let element in links) {
             if (links[element] instanceof Node && links[element].getAttribute('href') !== '#') {
                 if (links[element].hasAttribute("data-prevent-default")) {
                     links[element].addEventListener('click', function (e) {
                         e.preventDefault();
                     });
-
+                } else if(links[element].attached) {
+                    continue;
                 } else {
                     links[element].addEventListener('click', this.onClickEventHandler);
+                    links[element].attached = true;
                 }
+                console.log(links[element]);
             }
         }
     }

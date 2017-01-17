@@ -39,7 +39,7 @@ System.register([], function (_export, _context) {
                     this._importedElements = [];
 
                     /* Debug mode
-                     if (window.hasOwnProperty('esvibe') && !window.esvibe.debug) {
+                     if (window.hasOwnProperty('indigo') && !window.indigo.debug) {
                      console = console || {};
                      console.log = function () {
                      };
@@ -66,6 +66,7 @@ System.register([], function (_export, _context) {
                 }, {
                     key: 'initRouter',
                     value: function initRouter() {
+                        var _self = this;
                         Promise.all([System.import('director'), System.import('router')]).then(function (modules) {
                             var Router = modules[0],
                                 appRouter = modules[1];
@@ -73,10 +74,10 @@ System.register([], function (_export, _context) {
                             console.log('Router Initialised as a window global...');
 
                             document.documentElement.className = 'js';
-                            window.App.captureLinks();
+                            _self.captureLinks();
 
                             // Dispatch the event.
-                            window.dispatchEvent(new CustomEvent('systemReady'));
+                            window.dispatchEvent(new CustomEvent('routerReady'));
                         }, function (err) {
                             console.log(err);
                             console.log('The router couldn\'t be loaded, default navigation.');
@@ -139,18 +140,9 @@ System.register([], function (_export, _context) {
                         });
                     }
                 }, {
-                    key: 'findAndLoadElements',
-                    value: function findAndLoadElements() {
-                        var components = [].slice.call(document.querySelectorAll("[data-import]"));
-                        if (components.length > 0) {
-                            window.App.lazyLoadElements(components);
-                            window.App.captureLinks();
-                        }
-                    }
-                }, {
                     key: 'updateElements',
-                    value: function updateElements() {
-                        var components = [].slice.call(document.querySelectorAll("[data-import]"));
+                    value: function updateElements(components) {
+                        components = components == undefined ? [].slice.call(document.querySelectorAll("[data-import]")) : components;
                         if (components.length > 0) {
                             this.lazyLoadElements(components);
                         }
@@ -160,28 +152,33 @@ System.register([], function (_export, _context) {
                     value: function onClickEventHandler(event) {
                         // Set the  to loading
                         console.log('System is handling link event');
-                        if (this.href.indexOf(window.esvibe.site_url) > -1) {
+                        if (event.target.href.indexOf(window.indigo.site_url) > -1) {
                             event.preventDefault();
-                            var link = this;
+                            console.log('router');
+                            var link = event.target;
                             if (link.href !== window.location.href) {
                                 //link.setAttribute('disabled', true);
-                                window.router.setRoute(this.href);
+                                window.router.setRoute(event.target.href);
                             }
                         }
                     }
                 }, {
                     key: 'captureLinks',
-                    value: function captureLinks() {
-                        var links = document.querySelectorAll('a[href]');
+                    value: function captureLinks(links) {
+                        links = links == undefined ? document.querySelectorAll('a[href]') : links;
                         for (var element in links) {
                             if (links[element] instanceof Node && links[element].getAttribute('href') !== '#') {
                                 if (links[element].hasAttribute("data-prevent-default")) {
                                     links[element].addEventListener('click', function (e) {
                                         e.preventDefault();
                                     });
+                                } else if (links[element].attached) {
+                                    continue;
                                 } else {
                                     links[element].addEventListener('click', this.onClickEventHandler);
+                                    links[element].attached = true;
                                 }
+                                console.log(links[element]);
                             }
                         }
                     }
