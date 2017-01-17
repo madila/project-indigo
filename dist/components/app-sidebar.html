@@ -1,0 +1,31 @@
+<dom-module id=app-sidebar> <style>:host {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        border-radius: 0;
+        border-width: 0 1px 0 0;
+        box-shadow: none;
+        margin: 0;
+        width: 10%;
+        max-width: 175px;
+        overflow: hidden;
+        padding: 30px
+    }
+
+    @media (max-width: 575px) {
+        :host {
+            width: 100%;
+            transform: translateX(-100%)
+        }
+    }
+
+    :host:after {
+        content: "";
+        position: absolute;
+        top: 30px;
+        right: 0;
+        bottom: 30px;
+        width: 0;
+        border-right: 1px solid #e1e1e1
+    }</style> <template><a href="">Something</a> <content></content> </template> </dom-module> <script>!function(){Polymer({is:"app-sidebar","extends":"nav",properties:{animate:{type:String,value:"null"}},ready:function(){window.App.findAndLoadElements(Polymer.dom(this.root))},attached:function(){this.dataset.animate="slideLeftIn",this.removeAttribute("unresolved")}})}()</script>

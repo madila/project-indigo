@@ -1,0 +1,34 @@
+{
+  "name": "project-indigo",
+  "version": "1.0.1",
+  "description": "A development stack and workflow for the modern web",
+  "keywords": [
+    "html5", "postcss", "scss", "sass", "webcomponents", "fontfaceloader"
+  ],
+  "authors": [
+    "Ruben Madila",
+    "Thomas Whiteley"
+  ],
+  "license": "GNU General Public License v2 or later",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "director": "~1.*",
+    "history.js": "^1.*",
+    "jquery": "^3.*",
+    "lazysizes": "~2.0.0",
+    "offline": "~0.7.17",
+    "picturefill": "^3.0",
+    "polymer": "Polymer/polymer#^1.*",
+    "system.js": "^0.*",
+    "webcomponentsjs": "^0.*",
+    "es6-promise": "^4.*",
+    "html5-polyfills": "git+https://github.com/OllieFordandCo/polyfills#master"
+  },
+  "devDependencies": {}
+}

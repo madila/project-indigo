@@ -1,0 +1,209 @@
+'use strict';
+
+System.register([], function (_export, _context) {
+    "use strict";
+
+    var _createClass, App;
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    return {
+        setters: [],
+        execute: function () {
+            _createClass = function () {
+                function defineProperties(target, props) {
+                    for (var i = 0; i < props.length; i++) {
+                        var descriptor = props[i];
+                        descriptor.enumerable = descriptor.enumerable || false;
+                        descriptor.configurable = true;
+                        if ("value" in descriptor) descriptor.writable = true;
+                        Object.defineProperty(target, descriptor.key, descriptor);
+                    }
+                }
+
+                return function (Constructor, protoProps, staticProps) {
+                    if (protoProps) defineProperties(Constructor.prototype, protoProps);
+                    if (staticProps) defineProperties(Constructor, staticProps);
+                    return Constructor;
+                };
+            }();
+
+            _export('App', App = function () {
+                function App() {
+                    _classCallCheck(this, App);
+
+                    this._importedElements = [];
+
+                    /* Debug mode
+                     if (window.hasOwnProperty('esvibe') && !window.esvibe.debug) {
+                     console = console || {};
+                     console.log = function () {
+                     };
+                     }*/
+
+                    /*
+                     System.import('lazysizes').then(function (lazySizes) {
+                     window.lazySizesConfig = window.lazySizesConfig || {};
+                     window.lazySizesConfig.init = false;
+                     lazySizes.init();
+                     }); */
+
+                    window.dispatchEvent(new CustomEvent('appReady'));
+
+                    console.log('App is Ready');
+                }
+
+                _createClass(App, [{
+                    key: 'init',
+                    value: function init() {
+                        this.updateElements();
+                        this.initRouter();
+                    }
+                }, {
+                    key: 'initRouter',
+                    value: function initRouter() {
+                        Promise.all([System.import('director'), System.import('router')]).then(function (modules) {
+                            var Router = modules[0],
+                                appRouter = modules[1];
+                            window.router = Router(appRouter.routes).configure(appRouter.routerConfig).init();
+                            console.log('Router Initialised as a window global...');
+
+                            document.documentElement.className = 'js';
+                            window.App.captureLinks();
+
+                            // Dispatch the event.
+                            window.dispatchEvent(new CustomEvent('systemReady'));
+                        }, function (err) {
+                            console.log(err);
+                            console.log('The router couldn\'t be loaded, default navigation.');
+                            // Dispatch the event.
+                            window.dispatchEvent(new CustomEvent('routerReady'));
+                        });
+                    }
+                }, {
+                    key: 'initSocial',
+                    value: function initSocial() {
+                        System.import('think-async').then(function (Async) {
+                            Async.add('instagram', '//platform.instagram.com/en_US/embeds.js', function () {
+                                window.addEventListener('viewUpdated', function (e) {
+                                    if (window.instgrm) {
+                                        instgrm.Embeds.process();
+                                    }
+                                });
+                            });
+                            Async.add('twitter', '//platform.twitter.com/widgets.js', function (id) {});
+                        });
+                    }
+                }, {
+                    key: 'lazyLoadElements',
+                    value: function lazyLoadElements(components) {
+
+                        components = components == undefined ? [].slice.call(document.querySelectorAll("[data-import]")) : components;
+
+                        var _self = this;
+
+                        components.forEach(function (element) {
+
+                            var ElementName = void 0,
+                                regex = new RegExp(' +', 'g');
+                            // Check if the Element extends an existing tag
+
+                            if (element.hasAttribute('is')) {
+
+                                ElementName = element.getAttribute("is").replace(regex, '-').toLowerCase();
+                            } else {
+
+                                ElementName = element.tagName.replace(regex, '-').toLowerCase();
+                            }
+                            if (_self.importedElements.indexOf(ElementName) == -1) {
+
+                                var elImport = document.createElement('link'),
+                                    dataImport = element.dataset.import;
+
+                                elImport.rel = 'import';
+
+                                if (dataImport == '') {
+                                    elImport.href = window.indigo.components_url + ElementName + '.html';
+                                } else {
+                                    elImport.href = window.indigo.components_url + dataImport;
+                                }
+
+                                document.head.appendChild(elImport);
+
+                                _self.importedElements = ElementName;
+                            }
+                        });
+                    }
+                }, {
+                    key: 'findAndLoadElements',
+                    value: function findAndLoadElements() {
+                        var components = [].slice.call(document.querySelectorAll("[data-import]"));
+                        if (components.length > 0) {
+                            window.App.lazyLoadElements(components);
+                            window.App.captureLinks();
+                        }
+                    }
+                }, {
+                    key: 'updateElements',
+                    value: function updateElements() {
+                        var components = [].slice.call(document.querySelectorAll("[data-import]"));
+                        if (components.length > 0) {
+                            this.lazyLoadElements(components);
+                        }
+                    }
+                }, {
+                    key: 'onClickEventHandler',
+                    value: function onClickEventHandler(event) {
+                        // Set the  to loading
+                        console.log('System is handling link event');
+                        if (this.href.indexOf(window.esvibe.site_url) > -1) {
+                            event.preventDefault();
+                            var link = this;
+                            if (link.href !== window.location.href) {
+                                //link.setAttribute('disabled', true);
+                                window.router.setRoute(this.href);
+                            }
+                        }
+                    }
+                }, {
+                    key: 'captureLinks',
+                    value: function captureLinks() {
+                        var links = document.querySelectorAll('a[href]');
+                        for (var element in links) {
+                            if (links[element] instanceof Node && links[element].getAttribute('href') !== '#') {
+                                if (links[element].hasAttribute("data-prevent-default")) {
+                                    links[element].addEventListener('click', function (e) {
+                                        e.preventDefault();
+                                    });
+                                } else {
+                                    links[element].addEventListener('click', this.onClickEventHandler);
+                                }
+                            }
+                        }
+                    }
+                }, {
+                    key: 'importedElements',
+                    get: function get() {
+                        return this._importedElements;
+                    },
+                    set: function set(value) {
+                        this._importedElements.push(value);
+                    }
+                }], [{
+                    key: 'getCustomElementName',
+                    value: function getCustomElementName(TagName) {
+                        return TagName.replace(/ +/g, '-').toLowerCase();
+                    }
+                }]);
+
+                return App;
+            }());
+
+            _export('App', App);
+        }
+    };
+});

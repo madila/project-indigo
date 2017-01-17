@@ -1,0 +1,54 @@
+{
+  "name": "project-indigo",
+  "title": "Project Indigo",
+  "description": "A development stack and workflow for the modern web.",
+  "version": "1.0.1",
+  "homepage": "https://github.com/OllieFordandCo/project-indigo",
+  "config": {
+    "site_title": "Welcome to Project Indigo",
+    "site_url" : "http://localhost:63342/project-indigo/",
+    "preconnect": ["https://api.esvibe.com"],
+    "webcomponents": {
+      "dist_url": "/project-indigo/dist/components/",
+      "src_url": "/project-indigo/src/components/"
+    },
+    "html": {
+      "dist_url": "./dist/",
+      "src_url": "./src/"
+    },
+    "scss": {
+      "dist_url": "./src/css/",
+      "src_url": "./src/scss/"
+    },
+    "postcss": {
+      "dist_url": "./dist/css/",
+      "src_url": "./src/css/"
+    },
+    "js": {
+      "indigo_url": "./dist/js",
+      "vendor_url": "./dist/vendor",
+      "src_url": "./src/js",
+      "modules": [
+        "src/vendor/system.js/dist/system.js",
+        "src/vendor/system.js/dist/system.src.js",
+        "src/vendor/system.js/dist/system-polyfills.js",
+        "src/vendor/webcomponentsjs/webcomponents-lite.js",
+        "src/vendor/jquery/dist/jquery.js",
+        "src/vendor/bootstrap/dist/js/bootstrap.js",
+        "src/vendor/think-async/dist/think-async.js",
+        "src/vendor/tether/dist/js/tether.js",
+        "src/vendor/history.js/scripts/bundled/html4+html5/native.history.js",
+        "src/vendor/offline/offline.js",
+        "src/vendor/picturefill/dist/picturefill.js",
+        "src/vendor/lazysizes/lazysizes.js",
+        "src/vendor/director/build/director.js",
+        "src/vendor/html5-polyfills/dataset.js",
+        "src/vendor/html5-polyfills/classList.js",
+        "src/vendor/es6-promise/es6-promise.auto.js",
+        "src/vendor/semantic/dist/semantic.min.js",
+        "src/js/app/vendor/customevent.js",
+        "src/js/app/vendor/requestanimationframe.js"
+      ]
+    }
+  }
+}
