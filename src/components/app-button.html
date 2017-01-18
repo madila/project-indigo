@@ -1,23 +1,18 @@
-<dom-module id=app-sidebar>
-    <link href="../css/components/app-sidebar.css" rel="stylesheet" inline>
+<dom-module id="app-button">
+    <style>:host {
+        border: none;
+        background-color: #bbb;
+    }
+    </style>
     <template>
-        <a href="{{siteUrl}}">[[siteName]]</a>
         <content></content>
     </template>
     <script>
         Polymer({
-            is: "app-sidebar",
-            extends: "nav",
+            is: "app-button",
+            extends: "button",
             properties: {
                 loadAnimate: {
-                    type: String,
-                    value: "null"
-                },
-                siteName: {
-                    type: String,
-                    value: "null"
-                },
-                siteUrl: {
                     type: String,
                     value: "null"
                 }
@@ -27,7 +22,6 @@
             },
             attached: function () {
                 this.dataset.animate = this.loadAnimate;
-                console.log(this.animate);
                 window.App.captureLinks();
                 this.removeAttribute("unresolved")
             }

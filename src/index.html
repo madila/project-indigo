@@ -22,14 +22,16 @@
 
     <script src="/project-indigo/dist/js/polyfills.js"></script>
 
-    <!--<link href="/project-indigo/dist/css/core.css" rel="stylesheet">-->
+    <link href="/project-indigo/dist/css/core.css" rel="stylesheet">
     <link rel="import" href="/project-indigo/dist/vendor/polymer/polymer.html">
 
 </head>
 <body>
 
-    <nav is="app-sidebar" unresolved="true" data-import site-name="Project Indigo" site-url="/project-indigo/dist/index.html"></nav>
-    <a href="/project-indigo/something/index.html">Something</a>
+    <nav is="app-sidebar" unresolved="true" data-animate="slideLeftIn" data-import site-name="Project Indigo" site-url="/project-indigo/dist/index.html">
+        <button is="app-button" data-animate="fadeIn" data-import>Something</button>
+    </nav>
+
     <!--<script type="text/javascript" src="dist/js/fontLoading.js"></script>-->
     <script type='text/javascript' src='/project-indigo/dist/vendor/system.src.js'></script>
     <script type='text/javascript' src="/project-indigo/dist/js/systemjs-config.js"></script>

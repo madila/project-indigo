@@ -44,10 +44,7 @@ gulp.task('sass', function () {
     var stream = gulp.src(indigo.config.scss.src_url+'**/*.scss')
         .pipe($.plumber())
         .pipe($.sass())
-        .pipe(gulp.dest(indigo.config.scss.dist_url))
-        .on('end', function() {
-            gulp.start('postcss');
-        });
+        .pipe(gulp.dest(indigo.config.scss.dist_url));
     return stream;
 });
 
@@ -61,9 +58,9 @@ gulp.task('postcss', function () {
             convertValues: true
         })
     ];
-    var stream = gulp.src(indigo.config.css.src_url+'**/*.css')
+    var stream = gulp.src(indigo.config.postcss.src_url+'**/*.css')
         .pipe($.postcss(processors))
-        .pipe(gulp.dest(indigo.config.scss.dist_url))
+        .pipe(gulp.dest(indigo.config.postcss.dist_url))
         .on('end', function() {
             gulp.start('inlinesource');
         });

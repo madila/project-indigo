@@ -11,19 +11,20 @@
     "preconnect": ["https://api.esvibe.com"],
     "webcomponents": {
       "dist_url": "/project-indigo/dist/components/",
-      "src_url": "/project-indigo/src/components/"
+      "dist_dir": "./dist/components/",
+      "src_dir": "./src/components/"
     },
     "html": {
       "dist_url": "/project-indigo/dist/",
       "src_url": "/project-indigo/src/"
     },
     "scss": {
-      "dist_url": "/project-indigo/src/css/",
-      "src_url": "/project-indigo/src/scss/"
+      "dist_url": "./src/css/",
+      "src_url": "./src/scss/"
     },
     "postcss": {
-      "dist_url": "/project-indigo/dist/css/",
-      "src_url": "/project-indigo/src/css/"
+      "dist_url": "./dist/css/",
+      "src_url": "./src/css/"
     },
     "js": {
       "indigo_url": "/project-indigo/dist/js",
