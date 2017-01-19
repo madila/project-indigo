@@ -29,10 +29,14 @@
 <body>
 
     <nav is="app-sidebar" unresolved="true" data-animate="slideLeftIn" data-import site-name="Project Indigo" site-url="/project-indigo/dist/index.html">
-        <button is="app-button" data-animate="fadeIn" data-import>Something</button>
+
     </nav>
 
-    <!--<script type="text/javascript" src="dist/js/fontLoading.js"></script>-->
+    <main is="app-container" unresolved="true" data-animate="fadeIn" data-import>
+        <button is="app-button" data-import unresolved="true">Something</button>
+    </main>
+
+    <script type="text/javascript" src="/project-indigo/dist/js/fontLoading.js"></script>
     <script type='text/javascript' src='/project-indigo/dist/vendor/system.src.js'></script>
     <script type='text/javascript' src="/project-indigo/dist/js/systemjs-config.js"></script>
 </body>

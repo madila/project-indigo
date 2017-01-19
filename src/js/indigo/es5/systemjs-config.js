@@ -46,7 +46,7 @@ window.addEventListener('systemReady', function () {
 });
 
 // Document is ready, init the app
-document.addEventListener( "DOMContentLoaded", function() {
+window.addEventListener( "load", function() {
 
     document.documentElement.classList.add('is-entering');
     console.log('document is ready');

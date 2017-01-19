@@ -1,4 +1,1 @@
-<dom-module id=app-button> <style>:host {
-        border: none;
-        background-color: #bbb;
-    } </style> <template> <content></content> </template> <script>Polymer({is:"app-button","extends":"button",properties:{loadAnimate:{type:String,value:"null"}},ready:function(){window.App.updateElements(Polymer.dom(this.root))},attached:function(){this.dataset.animate=this.loadAnimate,window.App.captureLinks(),this.removeAttribute("unresolved")}})</script> </dom-module>
+<dom-module id=app-button> <style>:host{padding:.5rem 1rem;border-radius:2rem;border:1px solid #bbb;background-color:transparent;color:#999;transition:all .1s ease-out!important;font-family:inherit}:host:hover{color:#550;border-color:#333}:host:focus{outline:none;box-shadow:0 0 5px #4d90fe}</style> <template> <content></content> </template> <script>Polymer({is:"app-button","extends":"button",properties:{},ready:function(){window.App.updateElements(Polymer.dom(this.root))},attached:function(){window.App.captureLinks(),window.App.animateElement(this)}})</script> </dom-module>

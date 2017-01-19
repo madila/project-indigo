@@ -130,6 +130,15 @@ export class App {
         }
     }
 
+    animateElement(element) {
+        window.requestAnimationFrame(function() {
+            const animate = element.dataset.animate;
+            if (element == undefined) return false;
+            if (animate) element.classList.add('animate--'+animate);
+            element.removeAttribute("unresolved");
+        });
+    }
+
     // Setup Link Click Events
     onClickEventHandler(event) {
         // Set the  to loading

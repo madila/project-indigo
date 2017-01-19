@@ -1,5 +1,5 @@
 <dom-module id=app-sidebar>
-    <link href="../css/components/app-sidebar.css" rel="stylesheet" inline>
+    <link href="../../dist/css/components/app-sidebar.css" rel="stylesheet" inline>
     <template>
         <a href="{{siteUrl}}">[[siteName]]</a>
         <content></content>
@@ -26,10 +26,8 @@
                 window.App.updateElements(Polymer.dom(this.root));
             },
             attached: function () {
-                this.dataset.animate = this.loadAnimate;
-                console.log(this.animate);
                 window.App.captureLinks();
-                this.removeAttribute("unresolved")
+                window.App.animateElement(this);
             }
         });
     </script>

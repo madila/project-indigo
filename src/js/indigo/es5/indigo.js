@@ -148,10 +148,21 @@ System.register([], function (_export, _context) {
                         }
                     }
                 }, {
+                    key: 'animateElement',
+                    value: function animateElement(element) {
+                        window.requestAnimationFrame(function () {
+                            var animate = element.dataset.animate;
+                            if (element == undefined) return false;
+                            if (animate) element.classList.add('animate--' + animate);
+                            element.removeAttribute("unresolved");
+                        });
+                    }
+                }, {
                     key: 'onClickEventHandler',
                     value: function onClickEventHandler(event) {
                         // Set the  to loading
                         console.log('System is handling link event');
+                        // Check if the link contains the site url (relative urls have the domain appended to the href attribute).
                         if (event.target.href.indexOf(window.indigo.site_url) > -1) {
                             event.preventDefault();
                             console.log('router');

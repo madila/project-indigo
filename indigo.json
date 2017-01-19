@@ -27,9 +27,10 @@
       "src_url": "./src/css/"
     },
     "js": {
-      "indigo_url": "/project-indigo/dist/js",
+      "dist_url": "./dist/js",
+      "dist_dir": "/project-indigo/dist/js",
       "vendor_url": "/project-indigo/dist/vendor",
-      "src_url": "/project-indigo/src/js",
+      "src_dir": "/project-indigo/src/js",
       "modules": [
         "src/vendor/system.js/dist/system.js",
         "src/vendor/system.js/dist/system.src.js",

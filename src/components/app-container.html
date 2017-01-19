@@ -1,13 +1,14 @@
-<dom-module id="app-button">
-    <link href="../../dist/css/components/app-button.css" inline rel="stylesheet">
+<dom-module id=app-container>
+    <link href="../css/components/app-container.css" rel="stylesheet" inline>
     <template>
         <content></content>
     </template>
     <script>
         Polymer({
-            is: "app-button",
-            extends: "button",
+            is: "app-container",
+            extends: "main",
             properties: {
+
             },
             ready: function () {
                 window.App.updateElements(Polymer.dom(this.root));

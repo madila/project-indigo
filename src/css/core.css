@@ -1,36 +1,26 @@
-[data-animate="fadeIn"] {
-  animation-name: fadeIn;
-  animation-duration: .4s;
-  animation-fill-mode: both;
-  animation-iteration-count: 1; }
-  [data-animate="fadeIn"][unresolved="true"] {
-    animation-iteration-count: 0;
-    will-change: opacity;
-    opacity: 0; }
+body, html {
+  margin: 0; }
+
+[unresolved="true"] {
+  opacity: 0; }
+
+[data-animate] {
+  opacity: 0; }
+  [data-animate][unresolved="true"] {
+    will-change: opacity; }
+
+.animate--fadeIn {
+  opacity: 1;
+  transition: opacity 200ms linear; }
 
 [data-animate="slideLeftIn"] {
-  animation-name: slideLeftIn;
-  animation-duration: .4s;
-  animation-fill-mode: both;
-  animation-iteration-count: 1; }
-  [data-animate="slideLeftIn"][unresolved="true"] {
-    animation-iteration-count: 0;
-    will-change: transform;
-    -ms-transform: translateX(-100%);
-    transform: translateX(-100%); }
+  will-change: opacity, transform;
+  transform: translateX(-100%); }
 
-@keyframes slideLeftIn {
-  0% {
-    opacity: 0;
-    transform: translateX(-100%); }
-  to {
-    transform: translateX(0); } }
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0; }
-  to {
-    opacity: 1; } }
+.animate--slideLeftIn {
+  opacity: 1;
+  transform: translateX(0);
+  transition: transform 300ms linear, opacity 300ms linear; }
 
 :root {
   --logo-color: red;

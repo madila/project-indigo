@@ -16,4 +16,5 @@
     ('dataset' in document.createElement('div')) || loadScript(window.indigo.vendor_url+'/dataset.js');
     ('classList' in document.createElement('div')) || loadScript(window.indigo.vendor_url+'/classList.js');
     (window.history && window.history.pushState) || loadScript(window.indigo.vendor_url+'/native.history.js');
+    ('registerElement' in document && 'import' in document.createElement('link') && 'createShadowRoot' in HTMLElement.prototype && 'content' in document.createElement('template')) || loadScript(window.indigo.vendor_url+'/webcomponents-lite.js');
 }());
