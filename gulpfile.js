@@ -77,7 +77,7 @@ gulp.task('js-modules', function() {
     filesToMove.forEach(function(name) {
         var stream = gulp.src(name)
             .pipe($.rename(function(path) {
-                path.dirname = 'src/js/vendor/'
+                path.dirname = 'src/js/'
             }))
             .pipe(gulp.dest('./'));
         streams.push(stream);
@@ -86,14 +86,17 @@ gulp.task('js-modules', function() {
 });
 
 /*
- * Minification of Javascript Modules to the dist/vendor/ for Distribution
+ * Minification of Javascript Files to the dist/js/ for Distribution
  */
 
-gulp.task('uglify-vendor', function () {
+gulp.task('indigo-uglify', function () {
     var streams = [];
-    var stream = gulp.src('src/js/vendor/**/*.js')
+    var stream = gulp.src('src/js/**/*.js')
         .pipe($.uglify())
-        .pipe(gulp.dest('dist/vendor'));
+        .pipe($.rename(function(path) {
+            path.dirname = 'dist/js/'
+        }))
+        .pipe(gulp.dest('./'));
     streams.push(stream);
     return $.merge(streams);
 
@@ -104,16 +107,16 @@ gulp.task('uglify-vendor', function () {
  * Extracting Polymer Files to the dist/vendor/polymer for Distribution
  */
 
-gulp.task('polymer', function() {
+gulp.task('webcomponents', function() {
     var filesToMove = [
-        'src/vendor/polymer/**/*.*'
+        'src/components/**/*.html'
     ];
     var streams = [];
     filesToMove.forEach(function(name) {
         var stream = gulp.src(name)
             .pipe($.htmlmin({collapseWhitespace: true, removeComments: true, removeAttributeQuotes: true, conservativeCollapse: true, minifyJS: true}))
             .pipe($.rename(function(path) {
-                path.dirname = 'dist/vendor/polymer'
+                path.dirname = 'dist/components'
             }))
             .pipe(gulp.dest('./'));
         streams.push(stream);
@@ -125,26 +128,15 @@ gulp.task('polymer', function() {
  * Extracting Main Javascript of the Application the dist/js for Distribution
  */
 
-gulp.task('babel', function () {
+gulp.task('transpile-es2015', function () {
 
     var streams = [];
-    var stream = gulp.src('src/js/indigo/es2015/**/*.js')
+    var stream = gulp.src('src/es2015/**/*.js')
         .pipe($.babel({
             presets: ['es2015'],
             plugins: ['transform-es2015-modules-systemjs']
         }))
         .pipe(gulp.dest('src/js/indigo/es5'));
-    streams.push(stream);
-    return $.merge(streams);
-
-});
-
-gulp.task('indigo', function () {
-
-    var streams = [];
-    stream = gulp.src('src/js/indigo/es5/**/*.js')
-        .pipe($.uglify())
-        .pipe(gulp.dest('dist/js'));
     streams.push(stream);
     return $.merge(streams);
 
@@ -166,7 +158,7 @@ gulp.task('lint', function() {
  */
 
 gulp.task('inlinesource', function () {
-    return gulp.src('./src/components/**/*.html')
+    return gulp.src('./dist/components/**/*.html')
         .pipe($.inlinesource())
         .pipe($.htmlmin({collapseWhitespace: true, removeComments: true, removeAttributeQuotes: true, conservativeCollapse: true, minifyJS: true}))
         .pipe(gulp.dest('./dist/components/'));
@@ -192,12 +184,12 @@ gulp.task('htmlreplace', function() {
                     indigo.config.site_name,
                     indigo.config.site_title,
                     indigo.config.site_url,
-                    indigo.config.js.vendor_url,
+                    indigo.config.js.dist_url,
                     indigo.config.postcss.dist_url,
-                    indigo.config.js.indigo_url,
+                    indigo.config.js.dist_url,
                     indigo.config.webcomponents.dist_url
                 ]],
-                "tpl": "<script type='text/javascript'>/* <![CDATA[ */var indigo = { 'site_name': '%s', 'site_title': '%s', 'site_url': '%s', 'vendor_url': '%s', 'css_url': '%s', 'indigo_url': '%s', 'components_url': '%s' };/* ]]> */</script>"
+                "tpl": "<script type='text/javascript'>/* <![CDATA[ */var indigo = { 'site_name': '%s', 'site_title': '%s', 'site_url': '%s', 'js_dist_url': '%s', 'css_url': '%s', 'indigo_url': '%s', 'components_url': '%s' };/* ]]> */</script>"
             }
         }))
         .pipe(gulp.dest('./dist/'));

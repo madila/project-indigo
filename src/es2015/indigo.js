@@ -11,7 +11,7 @@ export class App {
          }*/
 
         /*
-         System.import('lazysizes').then(function (lazySizes) {
+         System.import('lazysizes.js').then(function (lazySizes) {
          window.lazySizesConfig = window.lazySizesConfig || {};
          window.lazySizesConfig.init = false;
          lazySizes.init();
@@ -43,8 +43,8 @@ export class App {
     initRouter() {
         let _self = this;
         Promise.all([
-            System.import('director'),
-            System.import('router')
+            System.import('director.js'),
+            System.import('router.js')
         ]).then(function (modules) {
             let Router = modules[0],
                 appRouter = modules[1];
@@ -66,7 +66,7 @@ export class App {
     }
 
     initSocial() {
-        System.import('think-async').then(function (Async) {
+        System.import('think-async.js').then(function (Async) {
             Async.add('instagram', '//platform.instagram.com/en_US/embeds.js', function () {
                 window.addEventListener('viewUpdated', function (e) {
                     if (window.instgrm) {

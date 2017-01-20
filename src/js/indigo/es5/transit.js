@@ -20,7 +20,7 @@
         exit: {
             duration: 400,
             start: function (data) {
-                System.import('jquery').then(function ($) {
+                System.import('jquery.js').then(function ($) {
                     $('html').addClass('is-exiting');
                     window.setTimeout(function () {
                         $(document).trigger('esvibe.onExitEnd');
@@ -36,7 +36,7 @@
             duration: 400,
             start: function (href, data) {
 
-                System.import('jquery').then(function ($) {
+                System.import('jquery.js').then(function ($) {
                     var $html = $('html'),
                         $container = $('main'),
                         $newContent = transit.switchMain(data);
@@ -59,7 +59,7 @@
         enter: {
             duration: 800,
             start: function ($container, $newContent) {
-                System.import('jquery').then(function ($) {
+                System.import('jquery.js').then(function ($) {
                     // Inject the new content
                     $('body').scrollTop(0);
 

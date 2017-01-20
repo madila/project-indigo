@@ -46,7 +46,7 @@ System.register([], function (_export, _context) {
                      }*/
 
                     /*
-                     System.import('lazysizes').then(function (lazySizes) {
+                     System.import('lazysizes.js').then(function (lazySizes) {
                      window.lazySizesConfig = window.lazySizesConfig || {};
                      window.lazySizesConfig.init = false;
                      lazySizes.init();
@@ -67,7 +67,7 @@ System.register([], function (_export, _context) {
                     key: 'initRouter',
                     value: function initRouter() {
                         var _self = this;
-                        Promise.all([System.import('director'), System.import('router')]).then(function (modules) {
+                        Promise.all([System.import('director.js'), System.import('router.js')]).then(function (modules) {
                             var Router = modules[0],
                                 appRouter = modules[1];
                             window.router = Router(appRouter.routes).configure(appRouter.routerConfig).init();
@@ -88,7 +88,7 @@ System.register([], function (_export, _context) {
                 }, {
                     key: 'initSocial',
                     value: function initSocial() {
-                        System.import('think-async').then(function (Async) {
+                        System.import('think-async.js').then(function (Async) {
                             Async.add('instagram', '//platform.instagram.com/en_US/embeds.js', function () {
                                 window.addEventListener('viewUpdated', function (e) {
                                     if (window.instgrm) {

@@ -1,7 +1,7 @@
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['dist/js/router.js'], function (appRouter) {
+        define(['router.js'], function (appRouter) {
             // Also create a global in case some scripts
             // that are loaded still are looking for
             // a global even when an AMD loader is in use.
@@ -66,7 +66,7 @@
 
     appRouter.callTransit = function(routeData) {
         "use strict";
-        System.import('transit').then(function(transit) {
+        System.import('transit.js').then(function(transit) {
             transit.exit.start(routeData);
         });
     };

@@ -27,30 +27,27 @@
       "src_url": "./src/css/"
     },
     "js": {
-      "dist_url": "./dist/js",
       "dist_dir": "/project-indigo/dist/js",
-      "vendor_url": "/project-indigo/dist/vendor",
+      "dist_url": "/project-indigo/dist/js",
       "src_dir": "/project-indigo/src/js",
       "modules": [
-        "src/vendor/system.js/dist/system.js",
-        "src/vendor/system.js/dist/system.src.js",
-        "src/vendor/system.js/dist/system-polyfills.js",
-        "src/vendor/webcomponentsjs/webcomponents-lite.js",
-        "src/vendor/jquery/dist/jquery.js",
-        "src/vendor/bootstrap/dist/js/bootstrap.js",
-        "src/vendor/think-async/dist/think-async.js",
-        "src/vendor/tether/dist/js/tether.js",
-        "src/vendor/history.js/scripts/bundled/html4+html5/native.history.js",
-        "src/vendor/offline/offline.js",
-        "src/vendor/picturefill/dist/picturefill.js",
-        "src/vendor/lazysizes/lazysizes.js",
-        "src/vendor/director/build/director.js",
-        "src/vendor/html5-polyfills/dataset.js",
-        "src/vendor/html5-polyfills/classList.js",
-        "src/vendor/es6-promise/es6-promise.auto.js",
-        "src/vendor/semantic/dist/semantic.min.js",
-        "src/js/app/vendor/customevent.js",
-        "src/js/app/vendor/requestanimationframe.js"
+        "node_modules/systemjs/dist/system.js",
+        "node_modules/systemjs/dist/system.src.js",
+        "node_modules/systemjs/dist/system-polyfills.js",
+        "node_modules/webcomponents-lite/webcomponents-lite.js",
+        "node_modules/jquery/dist/jquery.js",
+        "node_modules/bootstrap/dist/js/bootstrap.js",
+        "node_modules/think-async/dist/think-async.js",
+        "node_modules/tether/dist/js/tether.js",
+        "node_modules/history.js/scripts/bundled/html4+html5/native.history.js",
+        "node_modules/offline/offline.js",
+        "node_modules/picturefill/dist/picturefill.js",
+        "node_modules/lazysizes/lazysizes.js",
+        "node_modules/director/build/director.js",
+        "node_modules/es6-promise/es6-promise.auto.js",
+        "node_modules/raf.js/raf.js",
+        "node_modules/custom-event-polyfill/custom-event-polyfill.js",
+        "node_modules/jquery/dist/jquery.js"
       ]
     }
   }
