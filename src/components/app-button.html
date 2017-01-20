@@ -8,6 +8,10 @@
             is: "app-button",
             extends: "button",
             properties: {
+                buttonStyle: {
+                    type: String,
+                    value: 'default'
+                }
             },
             ready: function () {
                 window.App.updateElements(Polymer.dom(this.root));

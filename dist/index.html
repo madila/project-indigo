@@ -20,18 +20,28 @@
     <script src="/project-indigo/dist/js/polyfills.js"></script>
 
     <link href="/project-indigo/dist/css/core.css" rel="stylesheet">
-    <link rel="import" href="/project-indigo/dist/vendor/polymer/polymer.html">
+    <link rel="import" href="/project-indigo/dist/components/vendor/polymer/polymer.html">
+    <link rel="import" href="/project-indigo/dist/components/vendor/paper-drawer-panel/paper-drawer-panel.html">
 
 </head>
-<body>
+<body unresolved>
 
-    <nav is="app-sidebar" unresolved="true" data-animate="slideLeftIn" data-import site-name="Project Indigo" site-url="/project-indigo/dist/index.html">
+    <paper-drawer-panel>
+        <div drawer> Drawer panel... </div>
+        <div main> Main panel... </div>
+    </paper-drawer-panel>
+    <!--
+    <nav is="app-sidebar" unresolved="true" data-animate="fadeIn" data-import>
 
     </nav>
 
     <main is="app-container" unresolved="true" data-animate="fadeIn" data-import>
-        <button is="app-button" data-import unresolved="true">Something</button>
-    </main>
+        <button is="app-button" data-import unresolved="true" class="pink"><i class="icon">&</i> Something</button>
+        <button is="app-button" data-import unresolved="true" class="purple">Something</button>
+        <button is="app-button" data-import unresolved="true" class="green">Something</button>
+        <button is="app-button" data-import unresolved="true" class="teal">Something</button>
+        <button is="app-button" data-import unresolved="true" class="white">Something</button>
+    </main>-->
 
     <script type="text/javascript" src="/project-indigo/dist/js/fontLoading.js"></script>
     <script type='text/javascript' src='/project-indigo/dist/vendor/system.src.js'></script>

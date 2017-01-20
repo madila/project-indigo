@@ -12,3 +12,33 @@
   :host:focus {
     outline: none;
     box-shadow: 0 0 5px #4d90fe; }
+  :host.white {
+    background-color: #fff;
+    color: #000000; }
+  :host.black {
+    background-color: #000;
+    color: #ffffff; }
+  :host.red {
+    background-color: #d9534f;
+    color: #000000; }
+  :host.orange {
+    background-color: #f0ad4e;
+    color: #000000; }
+  :host.yellow {
+    background-color: #ffd500;
+    color: #ffffff; }
+  :host.green {
+    background-color: #5cb85c;
+    color: #000000; }
+  :host.blue {
+    background-color: #0275d8;
+    color: #ffffff; }
+  :host.teal {
+    background-color: #5bc0de;
+    color: #000000; }
+  :host.pink {
+    background-color: #ff5b77;
+    color: #000000; }
+  :host.purple {
+    background-color: #613d7c;
+    color: #ffffff; }

@@ -11,18 +11,17 @@
   max-width: 175px;
   overflow: hidden;
   padding: 30px; }
-
-@media (max-width: 575px) {
-  :host {
-    width: 100%;
-    -ms-transform: translateX(-100%);
-    transform: translateX(-100%); } }
-
-:host:after {
-  content: "";
-  position: absolute;
-  top: 30px;
-  right: 0;
-  bottom: 30px;
-  width: 0;
-  border-right: 1px solid #e1e1e1; }
+  :host:after {
+    content: "";
+    position: absolute;
+    top: 30px;
+    right: 0;
+    bottom: 30px;
+    width: 0;
+    border-right: 1px solid #e1e1e1; }
+  :host.right-sidebar {
+    left: auto;
+    right: 0; }
+    :host.right-sidebar:after {
+      right: auto;
+      left: 0; }

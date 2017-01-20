@@ -1,0 +1,21 @@
+{
+  "name": "components",
+  "homepage": "https://github.com/OllieFordandCo/project-indigo",
+  "authors": [
+    "Ruben <contact@rubenmadila.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "./",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "^1.7.1"
+  }
+}
