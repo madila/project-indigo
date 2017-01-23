@@ -53,24 +53,27 @@ System.register([], function (_export, _context) {
                      }); */
 
                     window.dispatchEvent(new CustomEvent('appReady'));
-
                     console.log('App is Ready');
                 }
 
                 _createClass(App, [{
                     key: 'init',
                     value: function init() {
-                        this.updateElements();
                         this.initRouter();
+                        var App = this;
+                        System.import('x-tag-no-polyfills.js').then(function () {
+                            App.updateElements();
+                        });
                     }
                 }, {
                     key: 'initRouter',
                     value: function initRouter() {
                         var _self = this;
                         Promise.all([System.import('director.js'), System.import('router.js')]).then(function (modules) {
-                            var Router = modules[0],
+                            var director = modules[0],
                                 appRouter = modules[1];
-                            window.router = Router(appRouter.routes).configure(appRouter.routerConfig).init();
+
+                            window.router = director.Router(appRouter.routes).configure(appRouter.routerConfig).init();
                             console.log('Router Initialised as a window global...');
 
                             document.documentElement.className = 'js';
@@ -120,10 +123,13 @@ System.register([], function (_export, _context) {
 
                                 ElementName = element.tagName.replace(regex, '-').toLowerCase();
                             }
+                            console.log(_self.importedElements.indexOf(ElementName));
                             if (_self.importedElements.indexOf(ElementName) == -1) {
 
                                 var elImport = document.createElement('link'),
                                     dataImport = element.dataset.import;
+
+                                delete element.dataset.import;
 
                                 elImport.rel = 'import';
 

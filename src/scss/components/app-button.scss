@@ -19,6 +19,7 @@
   @each $colour, $value in $colours {
     &.#{$colour} {
       background-color: $value;
+      border-color: darken($value, 20%);
       color: set-colour($value);
     }
   }

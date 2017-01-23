@@ -1,8 +1,11 @@
 System.config({
     baseURL: indigo.js_dist_url,
     meta: {
-        'jquery': {
+        'jquery.js': {
             exports: 'jQuery',
+            format: 'global'
+        },
+        'x-tag-no-polyfills.js': {
             format: 'global'
         }
     }
@@ -20,7 +23,7 @@ window.addEventListener('systemReady', function () {
 });
 
 // Document is ready, init the app
-window.addEventListener( "load", function() {
+document.addEventListener( "DOMContentLoaded", function() {
 
     document.documentElement.classList.add('is-entering');
     console.log('document is ready');

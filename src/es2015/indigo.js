@@ -18,14 +18,16 @@ export class App {
          }); */
 
         window.dispatchEvent(new CustomEvent('appReady'));
-
         console.log('App is Ready');
 
     }
 
     init() {
-        this.updateElements();
         this.initRouter();
+        let App = this;
+        System.import('x-tag-no-polyfills.js').then(function() {
+            App.updateElements();
+        });
     }
 
     static getCustomElementName(TagName) {
@@ -46,9 +48,10 @@ export class App {
             System.import('director.js'),
             System.import('router.js')
         ]).then(function (modules) {
-            let Router = modules[0],
+            let director = modules[0],
                 appRouter = modules[1];
-            window.router = Router(appRouter.routes).configure(appRouter.routerConfig).init();
+
+            window.router = director.Router(appRouter.routes).configure(appRouter.routerConfig).init();
             console.log('Router Initialised as a window global...');
 
             document.documentElement.className = 'js';
@@ -100,10 +103,13 @@ export class App {
 
                 ElementName = element.tagName.replace(regex, '-').toLowerCase();
             }
+            console.log(_self.importedElements.indexOf(ElementName));
             if (_self.importedElements.indexOf(ElementName) == -1) {
 
                 let elImport = document.createElement('link'),
                     dataImport = element.dataset.import;
+
+                delete element.dataset.import;
 
                 elImport.rel = 'import';
 

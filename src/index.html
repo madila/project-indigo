@@ -12,10 +12,6 @@
     Javascript Settings
     <!-- endbuild -->
 
-    <!--[if lt IE 9]>
-    <script type='text/javascript' src='dist/js/ie9.min.js'></script>
-    <![endif]-->
-
     <!-- build:preconnect -->
     All the domains that the system needs to preconnect to
     <!-- endbuild -->
@@ -23,7 +19,7 @@
     <script src="/project-indigo/dist/js/polyfills.js"></script>
 
     <link href="/project-indigo/dist/css/core.css" rel="stylesheet">
-    <link rel="import" href="/project-indigo/dist/components/polymer.html">
+    <link rel="import" href="./components/polymer/polymer.html">
 
 </head>
 <body unresolved>
@@ -35,14 +31,14 @@
 
     <main is="app-container" unresolved="true" data-animate="fadeIn" data-import>
         <button is="app-button" data-import unresolved="true" class="pink"><i class="icon">&</i> Something</button>
-        <button is="app-button" data-import unresolved="true" class="purple">Something</button>
-        <button is="app-button" data-import unresolved="true" class="green">Something</button>
-        <button is="app-button" data-import unresolved="true" class="teal">Something</button>
-        <button is="app-button" data-import unresolved="true" class="white">Something</button>
+        <button is="app-button" unresolved="true" class="purple">Something</button>
+        <button is="app-button" unresolved="true" class="green">Something</button>
+        <button is="app-button" unresolved="true" class="teal">Something</button>
+        <button is="app-button" unresolved="true" class="white">Something</button>
     </main>
 
-    <script type="text/javascript" src="/project-indigo/dist/js/fontLoading.js"></script>
     <script type='text/javascript' src='/project-indigo/dist/js/system.src.js'></script>
     <script type='text/javascript' src="/project-indigo/dist/js/systemjs-config.js"></script>
+    <script type="text/javascript" src="/project-indigo/dist/js/fontLoading.js"></script>
 </body>
 </html>

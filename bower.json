@@ -26,7 +26,7 @@
     "picturefill": "^3.0",
     "polymer": "Polymer/polymer#^1.*",
     "system.js": "^0.*",
-    "webcomponentsjs": "^0.*",
+    "webcomponentsjs": "^1.*",
     "es6-promise": "^4.*",
     "html5-polyfills": "git+https://github.com/OllieFordandCo/polyfills#master"
   },

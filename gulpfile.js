@@ -25,13 +25,9 @@ var $ = {
  * Let the magic begin
  */
 
-gulp.task('default', ['refreshCss', 'refreshJs']);
+gulp.task('default', ['lint', 'transpile-es2015', 'indigo']);
 
 gulp.task('refreshCss', ['sass']);
-
-gulp.task('refreshJs', ['js-modules', 'polymer', 'uglify-vendor']);
-
-gulp.task('indigo-dist', ['lint', 'babel', 'indigo']);
 
 var fs = require('fs');
 var indigo = JSON.parse(fs.readFileSync('./indigo.json'));
@@ -92,7 +88,7 @@ gulp.task('js-modules', function() {
 gulp.task('indigo-uglify', function () {
     var streams = [];
     var stream = gulp.src('src/js/**/*.js')
-        .pipe($.uglify())
+        //.pipe($.uglify())
         .pipe($.rename(function(path) {
             path.dirname = 'dist/js/'
         }))
@@ -114,7 +110,6 @@ gulp.task('webcomponents', function() {
     var streams = [];
     filesToMove.forEach(function(name) {
         var stream = gulp.src(name)
-            .pipe($.htmlmin({collapseWhitespace: true, removeComments: true, removeAttributeQuotes: true, conservativeCollapse: true, minifyJS: true}))
             .pipe($.rename(function(path) {
                 path.dirname = 'dist/components'
             }))
@@ -158,9 +153,9 @@ gulp.task('lint', function() {
  */
 
 gulp.task('inlinesource', function () {
-    return gulp.src('./dist/components/**/*.html')
+    return gulp.src('./src/components/**/*.html')
         .pipe($.inlinesource())
-        .pipe($.htmlmin({collapseWhitespace: true, removeComments: true, removeAttributeQuotes: true, conservativeCollapse: true, minifyJS: true}))
+        //.pipe($.htmlmin({collapseWhitespace: true, removeComments: true, removeAttributeQuotes: true, conservativeCollapse: true, minifyJS: true}))
         .pipe(gulp.dest('./dist/components/'));
 });
 

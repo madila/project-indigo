@@ -1,6 +1,9 @@
 body, html {
   margin: 0; }
 
+html.wf-active {
+  font-family: 'Poppins', serif; }
+
 [unresolved="true"] {
   opacity: 0; }
 

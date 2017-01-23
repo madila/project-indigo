@@ -1,1 +1,22 @@
-<dom-module id=app-container> <style>:host{padding-top:30px;padding-right:30px;padding-left:255px}@media (max-width:575px){:host{padding-left:0}}</style> <template> <content></content> </template> <script>Polymer({is:"app-container","extends":"main",properties:{},ready:function(){window.App.updateElements(Polymer.dom(this.root))},attached:function(){window.App.captureLinks(),window.App.animateElement(this)}})</script> </dom-module>
+<dom-module id=app-container>
+    <style>:host{padding-top:30px;padding-right:30px;padding-left:255px}@media (max-width:575px){:host{padding-left:0}}</style>
+    <template>
+        <content></content>
+    </template>
+    <script>
+        Polymer({
+            is: "app-container",
+            extends: "main",
+            properties: {
+
+            },
+            ready: function () {
+                window.App.updateElements(Polymer.dom(this.root));
+            },
+            attached: function () {
+                window.App.captureLinks();
+                window.App.animateElement(this);
+            }
+        });
+    </script>
+</dom-module>

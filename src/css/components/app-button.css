@@ -14,31 +14,41 @@
     box-shadow: 0 0 5px #4d90fe; }
   :host.white {
     background-color: #fff;
+    border-color: #cccccc;
     color: #000000; }
   :host.black {
     background-color: #000;
+    border-color: black;
     color: #ffffff; }
   :host.red {
     background-color: #d9534f;
+    border-color: #a02622;
     color: #000000; }
   :host.orange {
     background-color: #f0ad4e;
+    border-color: #c77c11;
     color: #000000; }
   :host.yellow {
     background-color: #ffd500;
+    border-color: #998000;
     color: #ffffff; }
   :host.green {
     background-color: #5cb85c;
+    border-color: #357935;
     color: #000000; }
   :host.blue {
     background-color: #0275d8;
+    border-color: #013e73;
     color: #ffffff; }
   :host.teal {
     background-color: #5bc0de;
+    border-color: #2390b0;
     color: #000000; }
   :host.pink {
     background-color: #ff5b77;
+    border-color: #f4002a;
     color: #000000; }
   :host.purple {
     background-color: #613d7c;
+    border-color: #2c1b38;
     color: #ffffff; }

@@ -1,1 +1,74 @@
-!function(){function t(t){this.el=t;var n=t.className;n="undefined"==typeof n||"string"!=typeof n?"":n,n=n.replace(/^\s+|\s+$/g,"").split(/\s+/);for(var e=0;e<n.length;e++)i.call(this,n[e])}function n(t,n,e){Object.defineProperty?Object.defineProperty(t,n,{get:e}):t.__defineGetter__(n,e)}if(!("undefined"==typeof window.Element||"classList"in document.documentElement)){var e=Array.prototype,i=e.push,s=e.splice,o=e.join;t.prototype={add:function(t){this.contains(t)||(i.call(this,t),this.el.className=this.toString())},contains:function(t){var n=this.el.className;return n="undefined"==typeof n||"string"!=typeof n?"":n,n.indexOf(t)!=-1},item:function(t){return this[t]||null},remove:function(t){if(this.contains(t)){for(var n=0;n<this.length&&this[n]!=t;n++);s.call(this,n,1),this.el.className=this.toString()}},toString:function(){return o.call(this," ")},toggle:function(t){return this.contains(t)?this.remove(t):this.add(t),this.contains(t)}},window.DOMTokenList=t,n(Element.prototype,"classList",function(){return new t(this)})}}();
+(function () {
+
+    if (typeof window.Element === "undefined" || "classList" in document.documentElement) return;
+
+    var prototype = Array.prototype,
+        push = prototype.push,
+        splice = prototype.splice,
+        join = prototype.join;
+
+    function DOMTokenList(el) {
+        this.el = el;
+        // The className needs to be trimmed and split on whitespace
+        // to retrieve a list of classes.
+        var className = el.className;
+        className = (typeof className == 'undefined' || typeof className !== 'string') ? '' : className;
+        className = className.replace(/^\s+|\s+$/g,'').split(/\s+/);
+        for (var i = 0; i < className.length; i++) {
+            push.call(this, className[i]);
+        }
+    };
+
+    DOMTokenList.prototype = {
+        add: function(token) {
+            if(this.contains(token)) return;
+            push.call(this, token);
+            this.el.className = this.toString();
+        },
+        contains: function(token) {
+            var className = this.el.className;
+            className = (typeof className == 'undefined' || typeof className !== 'string') ? '' : className;
+            return className.indexOf(token) != -1;
+        },
+        item: function(index) {
+            return this[index] || null;
+        },
+        remove: function(token) {
+            if (!this.contains(token)) return;
+            for (var i = 0; i < this.length; i++) {
+                if (this[i] == token) break;
+            }
+            splice.call(this, i, 1);
+            this.el.className = this.toString();
+        },
+        toString: function() {
+            return join.call(this, ' ');
+        },
+        toggle: function(token) {
+            if (!this.contains(token)) {
+                this.add(token);
+            } else {
+                this.remove(token);
+            }
+
+            return this.contains(token);
+        }
+    };
+
+    window.DOMTokenList = DOMTokenList;
+
+    function defineElementGetter (obj, prop, getter) {
+        if (Object.defineProperty) {
+            Object.defineProperty(obj, prop,{
+                get : getter
+            });
+        } else {
+            obj.__defineGetter__(prop, getter);
+        }
+    }
+
+    defineElementGetter(Element.prototype, 'classList', function () {
+        return new DOMTokenList(this);
+    });
+
+})();

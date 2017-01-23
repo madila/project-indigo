@@ -1,1 +1,25 @@
-<dom-module id=app-button> <style>:host{padding:.5rem 1rem;border-radius:2rem;border:1px solid #bbb;background-color:transparent;color:#999;transition:all .1s ease-out!important;font-family:inherit}:host:hover{color:#550;border-color:#333}:host:focus{outline:none;box-shadow:0 0 5px #4d90fe}:host.white{background-color:#fff;color:#fff}:host.black{background-color:#000;color:#fff}:host.red{background-color:#d9534f;color:#fff}:host.orange{background-color:#f0ad4e;color:#fff}:host.yellow{background-color:#ffd500;color:#fff}:host.green{background-color:#5cb85c;color:#fff}:host.blue{background-color:#0275d8;color:#fff}:host.teal{background-color:#5bc0de;color:#fff}:host.pink{background-color:#ff5b77;color:#fff}:host.purple{background-color:#613d7c;color:#fff}</style> <template> <content></content> </template> <script>Polymer({is:"app-button","extends":"button",properties:{buttonStyle:{type:String,value:"default"}},ready:function(){window.App.updateElements(Polymer.dom(this.root))},attached:function(){window.App.captureLinks(),window.App.animateElement(this)}})</script> </dom-module>
+<dom-module id="app-button">
+    <style>:host{padding:.5rem 1rem;border-radius:2rem;border:1px solid #bbb;background-color:transparent;color:#999;transition:all .1s ease-out!important;font-family:inherit}:host:hover{color:#550;border-color:#333}:host:focus{outline:none;box-shadow:0 0 5px #4d90fe}:host.white{background-color:#fff;border-color:#ccc;color:#000}:host.black{background-color:#000;border-color:#000;color:#fff}:host.red{background-color:#d9534f;border-color:#a02622;color:#000}:host.orange{background-color:#f0ad4e;border-color:#c77c11;color:#000}:host.yellow{background-color:#ffd500;border-color:#998000;color:#fff}:host.green{background-color:#5cb85c;border-color:#357935;color:#000}:host.blue{background-color:#0275d8;border-color:#013e73;color:#fff}:host.teal{background-color:#5bc0de;border-color:#2390b0;color:#000}:host.pink{background-color:#ff5b77;border-color:#f4002a;color:#000}:host.purple{background-color:#613d7c;border-color:#2c1b38;color:#fff}</style>
+    <template>
+        <content></content>
+    </template>
+    <script>
+        Polymer({
+            is: "app-button",
+            extends: "button",
+            properties: {
+                buttonStyle: {
+                    type: String,
+                    value: 'default'
+                }
+            },
+            ready: function () {
+                window.App.updateElements(Polymer.dom(this.root));
+            },
+            attached: function () {
+                window.App.captureLinks();
+                window.App.animateElement(this);
+            }
+        });
+    </script>
+</dom-module>
