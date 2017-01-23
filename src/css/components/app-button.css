@@ -5,7 +5,8 @@
   background-color: transparent;
   color: #999;
   transition: all 100ms ease-out !important;
-  font-family: inherit; }
+  font-family: inherit;
+  cursor: pointer; }
   :host:hover {
     color: #555500;
     border-color: #333; }
@@ -14,41 +15,71 @@
     box-shadow: 0 0 5px #4d90fe; }
   :host.white {
     background-color: #fff;
-    border-color: #cccccc;
+    border-color: #e6e6e6;
     color: #000000; }
+    :host.white:hover, :host.white:active {
+      background-color: #e6e6e6;
+      color: #000000; }
   :host.black {
     background-color: #000;
     border-color: black;
     color: #ffffff; }
+    :host.black:hover, :host.black:active {
+      background-color: black;
+      color: #ffffff; }
   :host.red {
     background-color: #d9534f;
-    border-color: #a02622;
-    color: #000000; }
+    border-color: #c9302c;
+    color: #ffffff; }
+    :host.red:hover, :host.red:active {
+      background-color: #c9302c;
+      color: #ffffff; }
   :host.orange {
     background-color: #f0ad4e;
-    border-color: #c77c11;
-    color: #000000; }
+    border-color: #ec971f;
+    color: #ffffff; }
+    :host.orange:hover, :host.orange:active {
+      background-color: #ec971f;
+      color: #ffffff; }
   :host.yellow {
     background-color: #ffd500;
-    border-color: #998000;
+    border-color: #ccaa00;
     color: #ffffff; }
+    :host.yellow:hover, :host.yellow:active {
+      background-color: #ccaa00;
+      color: #ffffff; }
   :host.green {
     background-color: #5cb85c;
-    border-color: #357935;
-    color: #000000; }
+    border-color: #449d44;
+    color: #ffffff; }
+    :host.green:hover, :host.green:active {
+      background-color: #449d44;
+      color: #ffffff; }
   :host.blue {
     background-color: #0275d8;
-    border-color: #013e73;
+    border-color: #025aa5;
     color: #ffffff; }
+    :host.blue:hover, :host.blue:active {
+      background-color: #025aa5;
+      color: #ffffff; }
   :host.teal {
     background-color: #5bc0de;
-    border-color: #2390b0;
-    color: #000000; }
+    border-color: #31b0d5;
+    color: #ffffff; }
+    :host.teal:hover, :host.teal:active {
+      background-color: #31b0d5;
+      color: #ffffff; }
   :host.pink {
     background-color: #ff5b77;
-    border-color: #f4002a;
-    color: #000000; }
+    border-color: #ff284d;
+    color: #ffffff; }
+    :host.pink:hover, :host.pink:active {
+      background-color: #ff284d;
+      color: #ffffff; }
   :host.purple {
     background-color: #613d7c;
-    border-color: #2c1b38;
+    border-color: #462c5a;
     color: #ffffff; }
+    :host.purple:hover, :host.purple:active {
+      background-color: #462c5a;
+      color: #ffffff; }

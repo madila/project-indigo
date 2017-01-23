@@ -49,6 +49,7 @@
         "node_modules/es6-promise/dist/es6-promise.auto.js",
         "node_modules/raf.js/raf.js",
         "node_modules/webfontloader/webfontloader.js",
+        "node_modules/historyjs/scripts/bundled/html4+html5/native.history.js",
         "node_modules/jquery/dist/jquery.js"
       ]
     }

@@ -8,6 +8,7 @@
   color: #999;
   transition: all 100ms ease-out !important;
   font-family: inherit;
+  cursor: pointer;
   &:hover {
     color: #555500;
     border-color: #333;
@@ -19,8 +20,12 @@
   @each $colour, $value in $colours {
     &.#{$colour} {
       background-color: $value;
-      border-color: darken($value, 20%);
+      border-color: darken($value, 10%);
       color: set-colour($value);
+      &:hover, &:active {
+        background-color: darken($value, 10%);
+        color: set-colour(darken($value, 10%));
+      }
     }
   }
 }

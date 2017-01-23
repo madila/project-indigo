@@ -27,7 +27,7 @@ var $ = {
 
 gulp.task('default', ['lint', 'transpile-es2015', 'indigo']);
 
-gulp.task('refreshCss', ['sass']);
+gulp.task('refreshCss', ['sass', 'postcss']);
 
 var fs = require('fs');
 var indigo = JSON.parse(fs.readFileSync('./indigo.json'));
@@ -102,10 +102,10 @@ gulp.task('indigo-uglify', function () {
 /*
  * Extracting Polymer Files to the dist/vendor/polymer for Distribution
  */
-
+/*
 gulp.task('webcomponents', function() {
     var filesToMove = [
-        'src/components/**/*.html'
+        'src/components/.html'
     ];
     var streams = [];
     filesToMove.forEach(function(name) {
@@ -117,7 +117,7 @@ gulp.task('webcomponents', function() {
         streams.push(stream);
     });
     return $.merge(streams);
-});
+});*/
 
 /*
  * Extracting Main Javascript of the Application the dist/js for Distribution
@@ -155,7 +155,7 @@ gulp.task('lint', function() {
 gulp.task('inlinesource', function () {
     return gulp.src('./src/components/**/*.html')
         .pipe($.inlinesource())
-        //.pipe($.htmlmin({collapseWhitespace: true, removeComments: true, removeAttributeQuotes: true, conservativeCollapse: true, minifyJS: true}))
+        .pipe($.htmlmin({collapseWhitespace: true, removeComments: true, removeAttributeQuotes: true, conservativeCollapse: true, minifyJS: true}))
         .pipe(gulp.dest('./dist/components/'));
 });
 

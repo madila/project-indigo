@@ -1,5 +1,5 @@
 @function set-colour($color) {
-  @if (lightness($color) > 50) {
+  @if (lightness($color) > 75) {
     @return #000000; // Lighter backgorund, return dark color
   } @else {
     @return #ffffff; // Darker background, return light color
