@@ -9,7 +9,7 @@
     "site_title": "Welcome to Project Indigo",
     "site_url" : "https://olliefordandco.github.io/project-indigo/",
     "preconnect": ["https://api.esvibe.com"],
-    "dist_url": "./dist/css/",
+    "dist_url": "./dist",
     "js": {
       "modules": [
         "node_modules/systemjs/dist/system.js",

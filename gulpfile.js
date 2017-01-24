@@ -187,7 +187,7 @@ function htmlReplace() {
                     indigo.config.dist_url,
                     false
                 ]],
-                "tpl": "<script type='text/javascript'>/* <![CDATA[ */var indigoConfig = { 'site_name': '%s', 'site_title': '%s', 'site_url': '%s', 'dist_url': '%s', 'router': false };/* ]]> */</script>"
+                "tpl": "<script type='text/javascript'>/* <![CDATA[ */var indigoConfig = { 'site_name': '%s', 'site_title': '%s', 'site_url': '%s', 'dist_url': '%s', 'router': '%s' };/* ]]> */</script>"
             }
         }))
         .pipe(gulp.dest('./'));
