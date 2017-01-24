@@ -31,10 +31,7 @@ document.addEventListener( "DOMContentLoaded", function() {
     System.import('indigo.js').then(function (exports) {
         console.log('App has been imported');
         "use strict";
-        console.log(exports);
-        var App = new exports.App();
-        window.App = App;
-        window.App.init();
+        window.App = new exports.App();
     });
 
 });

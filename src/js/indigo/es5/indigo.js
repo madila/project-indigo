@@ -52,20 +52,16 @@ System.register([], function (_export, _context) {
                      lazySizes.init();
                      }); */
 
-                    window.dispatchEvent(new CustomEvent('appReady'));
-                    console.log('App is Ready');
+                    var _App = this;
+                    _App.updateElements();
+                    if (indigoConfig.router) {
+                        this.initRouter();
+                    } else {
+                        window.dispatchEvent(new CustomEvent('systemReady'));
+                    }
                 }
 
                 _createClass(App, [{
-                    key: 'init',
-                    value: function init() {
-                        if (indigoConfig.router) {
-                            this.initRouter();
-                        }
-                        var App = this;
-                        App.updateElements();
-                    }
-                }, {
                     key: 'initRouter',
                     value: function initRouter() {
                         var _self = this;
@@ -80,12 +76,12 @@ System.register([], function (_export, _context) {
                             _self.captureLinks();
 
                             // Dispatch the event.
-                            window.dispatchEvent(new CustomEvent('routerReady'));
+                            window.dispatchEvent(new CustomEvent('systemReady'));
                         }, function (err) {
                             console.log(err);
                             console.log('The router couldn\'t be loaded, default navigation.');
                             // Dispatch the event.
-                            window.dispatchEvent(new CustomEvent('routerReady'));
+                            window.dispatchEvent(new CustomEvent('systemReady'));
                         });
                     }
                 }, {
