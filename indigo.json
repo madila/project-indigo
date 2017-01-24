@@ -36,8 +36,6 @@
         "node_modules/systemjs/dist/system-polyfills.js",
         "node_modules/webcomponentsjs/lite.js",
         "node_modules/webcomponentsjs/full.js",
-        "node_modules/x-tag/dist/x-tag-core.js",
-        "node_modules/x-tag/dist/x-tag-no-polyfills.js",
         "node_modules/jquery/dist/jquery.js",
         "node_modules/bootstrap/dist/js/bootstrap.js",
         "node_modules/tether/dist/js/tether.js",
