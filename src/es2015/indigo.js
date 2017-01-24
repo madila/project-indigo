@@ -25,9 +25,7 @@ export class App {
     init() {
         this.initRouter();
         let App = this;
-        System.import('x-tag-no-polyfills.js').then(function() {
-            App.updateElements();
-        });
+        App.updateElements();
     }
 
     static getCustomElementName(TagName) {
@@ -51,7 +49,7 @@ export class App {
             let director = modules[0],
                 appRouter = modules[1];
 
-            window.router = director.Router(appRouter.routes).configure(appRouter.routerConfig).init();
+            window.router = director(appRouter.routes).configure(appRouter.routerConfig).init();
             console.log('Router Initialised as a window global...');
 
             document.documentElement.className = 'js';

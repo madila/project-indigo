@@ -18,33 +18,74 @@ var $ = {
     inlinesource: require('gulp-inline-source'),
     htmlmin: require('gulp-htmlmin'),
     concat: require('gulp-concat'),
-    babel: require('gulp-babel')
+    babel: require('gulp-babel'),
+    async: require('async')
 };
 
 /*
  * Let the magic begin
  */
 
-gulp.task('default', ['lint', 'transpile-es2015', 'indigo']);
-
-gulp.task('refreshCss', ['sass', 'postcss']);
-
 var fs = require('fs');
 var indigo = JSON.parse(fs.readFileSync('./indigo.json'));
+
+
+gulp.task('dev-css', function (cb) {
+    $.async.series([
+        function (next) {
+            compileSass().on('end', next);
+        },
+        function (next) {
+            postCss().on('end', next);
+        },
+        function (next) {
+            webComponents().on('end', next);
+        }
+    ], cb);
+});
+
+gulp.task('dev-js', function (cb) {
+    $.async.series([
+        function (next) {
+            es2015Transpile().on('end', next);
+        },
+        function (next) {
+            projectIndigo().on('end', next);
+        }
+    ], cb);
+});
+
+gulp.task('dev-vendors', function (cb) {
+    var vendors = [];
+    var filesToMove = indigo.config.js.modules;
+    filesToMove.forEach(function(name) {
+        vendors.push(function(next) {
+            jsModules(name).on('end', next);
+        });
+    });
+    $.async.series(vendors, cb);
+});
+
+gulp.task('dev-index', function (cb) {
+    $.async.series([
+        function (next) {
+            htmlReplace().on('end', next);
+        }
+    ], cb);
+});
 
 /*
  * Sass Compiling
  */
 
-gulp.task('sass', function () {
-    var stream = gulp.src(indigo.config.scss.src_url+'**/*.scss')
+function compileSass() {
+    return gulp.src(indigo.config.scss.src_url+'**/*.scss')
         .pipe($.plumber())
         .pipe($.sass())
         .pipe(gulp.dest(indigo.config.scss.dist_url));
-    return stream;
-});
+}
 
-gulp.task('postcss', function () {
+function postCss() {
     var processors = [
         $.autoprefixer({browsers: ['last 3 version']}),
         $.cssnano({
@@ -54,116 +95,76 @@ gulp.task('postcss', function () {
             convertValues: true
         })
     ];
-    var stream = gulp.src(indigo.config.postcss.src_url+'**/*.css')
+    return gulp.src(indigo.config.postcss.src_url + '**/*.css')
         .pipe($.postcss(processors))
-        .pipe(gulp.dest(indigo.config.postcss.dist_url))
-        .on('end', function() {
-            gulp.start('inlinesource');
-        });
-    return stream;
-});
+        .pipe(gulp.dest(indigo.config.postcss.dist_url));
+}
 
 /*
  * Extracting Main Javascript Files to the src/js/vendor for Minification
  */
 
-gulp.task('js-modules', function() {
-    var filesToMove = indigo.config.js.modules;
-    var streams = [];
-    filesToMove.forEach(function(name) {
-        var stream = gulp.src(name)
+function jsModules(name) {
+
+        return gulp.src(name)
             .pipe($.rename(function(path) {
                 path.dirname = 'src/js/'
             }))
             .pipe(gulp.dest('./'));
-        streams.push(stream);
-    });
-    return $.merge(streams);
-});
+}
 
 /*
  * Minification of Javascript Files to the dist/js/ for Distribution
  */
 
-gulp.task('indigo-uglify', function () {
-    var streams = [];
-    var stream = gulp.src('src/js/**/*.js')
-        //.pipe($.uglify())
+function projectIndigo() {
+    return gulp.src('src/js/**/*.js')
+        .pipe($.uglify())
         .pipe($.rename(function(path) {
             path.dirname = 'dist/js/'
         }))
         .pipe(gulp.dest('./'));
-    streams.push(stream);
-    return $.merge(streams);
-
-});
-
-
-/*
- * Extracting Polymer Files to the dist/vendor/polymer for Distribution
- */
-/*
-gulp.task('webcomponents', function() {
-    var filesToMove = [
-        'src/components/.html'
-    ];
-    var streams = [];
-    filesToMove.forEach(function(name) {
-        var stream = gulp.src(name)
-            .pipe($.rename(function(path) {
-                path.dirname = 'dist/components'
-            }))
-            .pipe(gulp.dest('./'));
-        streams.push(stream);
-    });
-    return $.merge(streams);
-});*/
+}
 
 /*
  * Extracting Main Javascript of the Application the dist/js for Distribution
  */
 
-gulp.task('transpile-es2015', function () {
-
-    var streams = [];
-    var stream = gulp.src('src/es2015/**/*.js')
+function es2015Transpile() {
+    return gulp.src('src/es2015/**/*.js')
         .pipe($.babel({
             presets: ['es2015'],
             plugins: ['transform-es2015-modules-systemjs']
         }))
         .pipe(gulp.dest('src/js/indigo/es5'));
-    streams.push(stream);
-    return $.merge(streams);
-
-});
+}
 
 /*
  * Check Javascript for errors
  */
 
-gulp.task('lint', function() {
-    var stream = gulp.src('./src/js/app/*.js')
+function jsLint() {
+    return gulp.src('./src/js/app/*.js')
         .pipe($.jshint())
         .pipe($.jshint.reporter('default'));
-    return stream;
-});
+}
 
 /*
  * Inline all scripts and styles on Web Components.
  */
 
-gulp.task('inlinesource', function () {
+function webComponents() {
     return gulp.src('./src/components/**/*.html')
         .pipe($.inlinesource())
         .pipe($.htmlmin({collapseWhitespace: true, removeComments: true, removeAttributeQuotes: true, conservativeCollapse: true, minifyJS: true}))
         .pipe(gulp.dest('./dist/components/'));
-});
+}
 
 /*
  * Replace Indigo Configuration on HTML
  */
 
-gulp.task('htmlreplace', function() {
+function htmlReplace() {
     return gulp.src('./src/index.html')
         .pipe($.htmlreplace({
             "preconnect": {
@@ -188,4 +189,4 @@ gulp.task('htmlreplace', function() {
             }
         }))
         .pipe(gulp.dest('./dist/'));
-});
+}

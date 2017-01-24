@@ -28,26 +28,38 @@
                 window.App.animateElement(this);
 
                 var sidebar = this;
+                delete sidebar.dataset.animate;
 
                 // Toggle when mobile view
                 if("matchMedia" in window) {
                     var mql = window.matchMedia("(max-width: 575px)");
-                    mql.addListener(function () {
-                        if (mql.matches) {
-                            var direction = (sidebar.classList.contains('right-sidebar')) ? 'translateX(100%)' : 'translateX(-100%)';
-                            delete sidebar.dataset.animate;
-                            sidebar.style.willChange = 'transform';
-                            sidebar.style.transform = direction;
-                            sidebar.style.willChange = 'auto';
-                        } else {
-                            delete sidebar.dataset.animate;
-                            sidebar.style.willChange = 'transform';
-                            sidebar.style.transform = 'translateX(0)';
-                            sidebar.style.willChange = 'auto';
-                        }
-                    });
                     console.log(mql);
+                    mql.addListener(function() {
+                        sidebar.toggleSidebar();
+                    });
+                    this.toggleSidebar();
                 }
+            },
+            toggleSidebar: function() {
+                var mql = window.matchMedia("(max-width: 575px)");
+                if(mql.matches) {
+                    this.show();
+                } else {
+                    this.hide();
+                }
+            },
+            show: function() {
+                var sidebar = this;
+                var direction = (sidebar.classList.contains('right-sidebar')) ? 'translateX(100%)' : 'translateX(-100%)';
+                sidebar.style.willChange = 'transform';
+                sidebar.style.transform = direction;
+                sidebar.style.willChange = 'auto';
+            },
+            hide: function() {
+                var sidebar = this;
+                sidebar.style.willChange = 'transform';
+                sidebar.style.transform = 'translateX(0)';
+                sidebar.style.willChange = 'auto';
             }
         });
     </script>

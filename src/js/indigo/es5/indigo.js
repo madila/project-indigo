@@ -61,9 +61,7 @@ System.register([], function (_export, _context) {
                     value: function init() {
                         this.initRouter();
                         var App = this;
-                        System.import('x-tag-no-polyfills.js').then(function () {
-                            App.updateElements();
-                        });
+                        App.updateElements();
                     }
                 }, {
                     key: 'initRouter',
@@ -73,7 +71,7 @@ System.register([], function (_export, _context) {
                             var director = modules[0],
                                 appRouter = modules[1];
 
-                            window.router = director.Router(appRouter.routes).configure(appRouter.routerConfig).init();
+                            window.router = director(appRouter.routes).configure(appRouter.routerConfig).init();
                             console.log('Router Initialised as a window global...');
 
                             document.documentElement.className = 'js';

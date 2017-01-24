@@ -1,13 +1,1 @@
-// Deferred non-critical stylesheet
-var loadDeferredStyles = function () {
-    var addStylesNode = document.getElementById("esvibe-css");
-    var replacement = document.createElement("div");
-    replacement.innerHTML = addStylesNode.innerText;
-    document.body.appendChild(replacement);
-    addStylesNode.parentElement.removeChild(addStylesNode);
-};
-var raf = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
-    window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
-if (raf) { raf(function () {
-    window.setTimeout(loadDeferredStyles, 0);
-}) } else  { window.addEventListener('load', loadDeferredStyles) }
+var loadDeferredStyles=function(){var e=document.getElementById("esvibe-css"),n=document.createElement("div");n.innerHTML=e.innerText,document.body.appendChild(n),e.parentElement.removeChild(e)},raf=window.requestAnimationFrame||window.mozRequestAnimationFrame||window.webkitRequestAnimationFrame||window.msRequestAnimationFrame;raf?raf(function(){window.setTimeout(loadDeferredStyles,0)}):window.addEventListener("load",loadDeferredStyles);

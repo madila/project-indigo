@@ -5,7 +5,7 @@ System.config({
             exports: 'jQuery',
             format: 'global'
         },
-        'x-tag-no-polyfills.js': {
+        'indigo.es6.js': {
             format: 'global'
         }
     }
@@ -27,6 +27,7 @@ document.addEventListener( "DOMContentLoaded", function() {
 
     document.documentElement.classList.add('is-entering');
     console.log('document is ready');
+
     System.import('indigo.js').then(function (exports) {
         console.log('App has been imported');
         "use strict";
