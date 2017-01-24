@@ -27,8 +27,15 @@ var $ = {
  */
 
 var fs = require('fs');
-var indigo = JSON.parse(fs.readFileSync('./indigo.json'));
+var indigo;
+try {
+    indigo = fs.readFileSync('./../indigo.json');
+} catch (err) {
+    // Here you get the error when the file was not found,
+    // but you also get any other error
+    indigo = JSON.parse(fs.readFileSync('./indigo.json'));
 
+}
 
 gulp.task('dev-css', function (cb) {
     $.async.series([
