@@ -23,7 +23,9 @@ export class App {
     }
 
     init() {
-        this.initRouter();
+        if(indigoConfig.router) {
+            this.initRouter();
+        }
         let App = this;
         App.updateElements();
     }
@@ -112,9 +114,9 @@ export class App {
                 elImport.rel = 'import';
 
                 if (dataImport == '') {
-                    elImport.href = window.indigo.components_url + ElementName + '.html';
+                    elImport.href = window.indigo.dist_url+ '/components/' + ElementName + '.html';
                 } else {
-                    elImport.href = window.indigo.components_url + dataImport;
+                    elImport.href = window.indigo.dist_url+ '/components/' + dataImport;
                 }
 
                 document.head.appendChild(elImport);
@@ -160,20 +162,22 @@ export class App {
     }
 
     captureLinks(links) {
-        links = (links == undefined) ? document.querySelectorAll('a[href]') : links;
-        for (let element in links) {
-            if (links[element] instanceof Node && links[element].getAttribute('href') !== '#') {
-                if (links[element].hasAttribute("data-prevent-default")) {
-                    links[element].addEventListener('click', function (e) {
-                        e.preventDefault();
-                    });
-                } else if(links[element].attached) {
-                    continue;
-                } else {
-                    links[element].addEventListener('click', this.onClickEventHandler);
-                    links[element].attached = true;
+        if(indigoConfig.router) {
+            links = (links == undefined) ? document.querySelectorAll('a[href]') : links;
+            for (let element in links) {
+                if (links[element] instanceof Node && links[element].getAttribute('href') !== '#') {
+                    if (links[element].hasAttribute("data-prevent-default")) {
+                        links[element].addEventListener('click', function (e) {
+                            e.preventDefault();
+                        });
+                    } else if (links[element].attached) {
+                        continue;
+                    } else {
+                        links[element].addEventListener('click', this.onClickEventHandler);
+                        links[element].attached = true;
+                    }
+                    console.log(links[element]);
                 }
-                console.log(links[element]);
             }
         }
     }

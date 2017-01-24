@@ -2,9 +2,6 @@ var gulp = require('gulp');
 var $ = {
     gutil: require('gulp-util'),
     sass: require('gulp-sass'),
-    svgSprite: require('gulp-svg-sprite'),
-    svg2png: require('gulp-svg2png'),
-    size: require('gulp-size'),
     plumber: require('gulp-plumber'),
     htmlreplace: require('gulp-html-replace'),
     rename: require('gulp-rename'),
@@ -86,10 +83,10 @@ gulp.task('dev-index', function (cb) {
  */
 
 function compileSass() {
-    return gulp.src(indigo.config.scss.src_url+'**/*.scss')
+    return gulp.src('/project-indigo/src/scss/**/*.scss')
         .pipe($.plumber())
         .pipe($.sass())
-        .pipe(gulp.dest(indigo.config.scss.dist_url));
+        .pipe(gulp.dest('/project-indigo/src/css'));
 }
 
 function postCss() {
@@ -102,9 +99,9 @@ function postCss() {
             convertValues: true
         })
     ];
-    return gulp.src(indigo.config.postcss.src_url + '**/*.css')
+    return gulp.src('/project-indigo/src/css/**/*.css')
         .pipe($.postcss(processors))
-        .pipe(gulp.dest(indigo.config.postcss.dist_url));
+        .pipe(gulp.dest(indigo.config.dist_url+'/css'));
 }
 
 /*
@@ -187,12 +184,10 @@ function htmlReplace() {
                     indigo.config.site_name,
                     indigo.config.site_title,
                     indigo.config.site_url,
-                    indigo.config.js.dist_url,
-                    indigo.config.postcss.dist_url,
-                    indigo.config.js.dist_url,
-                    indigo.config.webcomponents.dist_url
+                    indigo.config.dist_url,
+                    false
                 ]],
-                "tpl": "<script type='text/javascript'>/* <![CDATA[ */var indigo = { 'site_name': '%s', 'site_title': '%s', 'site_url': '%s', 'js_dist_url': '%s', 'css_url': '%s', 'indigo_url': '%s', 'components_url': '%s' };/* ]]> */</script>"
+                "tpl": "<script type='text/javascript'>/* <![CDATA[ */var indigoConfig = { 'site_name': '%s', 'site_title': '%s', 'site_url': '%s', 'dist_url': '%s', 'router': false };/* ]]> */</script>"
             }
         }))
         .pipe(gulp.dest('./'));

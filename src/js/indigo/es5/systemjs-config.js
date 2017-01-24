@@ -1,5 +1,7 @@
+window.indigo = indigoConfig || {};
+
 System.config({
-    baseURL: indigo.js_dist_url,
+    baseURL: indigo.dist_url+'/js',
     meta: {
         'jquery.js': {
             exports: 'jQuery',
@@ -10,8 +12,6 @@ System.config({
         }
     }
 });
-
-window.indigo = window.indigo || {};
 
 window.define = System.amdDefine;
 window.require = window.requirejs = System.amdRequire;
