@@ -188,5 +188,5 @@ function htmlReplace() {
                 "tpl": "<script type='text/javascript'>/* <![CDATA[ */var indigo = { 'site_name': '%s', 'site_title': '%s', 'site_url': '%s', 'js_dist_url': '%s', 'css_url': '%s', 'indigo_url': '%s', 'components_url': '%s' };/* ]]> */</script>"
             }
         }))
-        .pipe(gulp.dest('./dist/'));
+        .pipe(gulp.dest('./'));
 }

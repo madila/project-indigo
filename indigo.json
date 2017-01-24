@@ -7,7 +7,7 @@
   "config": {
     "site_name": "Project Indigo",
     "site_title": "Welcome to Project Indigo",
-    "site_url" : "http://localhost:63342/project-indigo/",
+    "site_url" : "https://olliefordandco.github.io/project-indigo/",
     "preconnect": ["https://api.esvibe.com"],
     "webcomponents": {
       "dist_url": "/project-indigo/dist/components/",
