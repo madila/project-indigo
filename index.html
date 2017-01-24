@@ -16,17 +16,20 @@
     <script src="/project-indigo/dist/js/polyfills.js"></script>
 
     <link href="/project-indigo/dist/css/core.css" rel="stylesheet">
+    <!-- If you want webcomponents, leave this in -->
+    <link rel="import" href="./dist/components/polymer/polymer.html">
+    <link rel="import" href="./dist/components/icomoon-polymer/icomoon-iconset-svg.html">
 
 </head>
 <body unresolved>
 
-
-    <nav is="app-sidebar" unresolved="true" data-animate="fadeIn">
+    <!-- You need to include data-import and those components you wish to lazyLoad, define the path if it's not on the dist/components folder -->
+    <nav is="app-sidebar" unresolved="true" data-animate="fadeIn" data-import>
 
     </nav>
 
-    <main is="app-container" data-animate="fadeIn">
-        <button is="app-button" unresolved="true" class="pink"><iron-icon icon="icomoon:fitness_center"></iron-icon> Something</button>
+    <main is="app-container" data-animate="fadeIn" data-import>
+        <button is="app-button" data-import unresolved="true" class="pink"><iron-icon icon="icomoon:fitness_center"></iron-icon> Something</button>
         <button is="app-button" unresolved="true" class="purple">Something</button>
         <button is="app-button" unresolved="true" class="green"><iron-icon icon="icomoon:close"></iron-icon> Something</button>
         <button is="app-button" unresolved="true" class="teal">Something</button>
