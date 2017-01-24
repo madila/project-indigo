@@ -185,9 +185,10 @@ function htmlReplace() {
                     indigo.config.site_title,
                     indigo.config.site_url,
                     indigo.config.dist_url,
+                    false,
                     false
                 ]],
-                "tpl": "<script type='text/javascript'>/* <![CDATA[ */var indigoConfig = { 'site_name': '%s', 'site_title': '%s', 'site_url': '%s', 'dist_url': '%s', 'router': '%s' };/* ]]> */</script>"
+                "tpl": "<script type='text/javascript'>/* <![CDATA[ */var indigoConfig = { 'site_name': '%s', 'site_title': '%s', 'site_url': '%s', 'dist_url': '%s', 'router': %s, 'debug': %s };/* ]]> */</script>"
             }
         }))
         .pipe(gulp.dest('./'));

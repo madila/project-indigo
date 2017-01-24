@@ -1,4 +1,12 @@
-window.indigo = indigoConfig || {};
+if(typeof indigoConfig == "undefined") throw "Project Indigo requires a IndigoConfig variable.";
+
+window.indigo = indigoConfig;
+
+// Debug mode
+if (window.indigo.hasOwnProperty('debug') && !window.indigo.debug) {
+    console = console || {};
+    console.log = function () {};
+}
 
 System.config({
     baseURL: indigo.dist_url+'/js',

@@ -3,13 +3,6 @@ export class App {
 
         this._importedElements = [];
 
-        /* Debug mode
-         if (window.hasOwnProperty('indigo') && !window.indigo.debug) {
-         console = console || {};
-         console.log = function () {
-         };
-         }*/
-
         /*
          System.import('lazysizes.js').then(function (lazySizes) {
          window.lazySizesConfig = window.lazySizesConfig || {};

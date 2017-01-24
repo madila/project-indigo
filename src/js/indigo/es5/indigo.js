@@ -38,13 +38,6 @@ System.register([], function (_export, _context) {
 
                     this._importedElements = [];
 
-                    /* Debug mode
-                     if (window.hasOwnProperty('indigo') && !window.indigo.debug) {
-                     console = console || {};
-                     console.log = function () {
-                     };
-                     }*/
-
                     /*
                      System.import('lazysizes.js').then(function (lazySizes) {
                      window.lazySizesConfig = window.lazySizesConfig || {};
