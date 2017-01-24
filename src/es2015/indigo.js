@@ -17,17 +17,13 @@ export class App {
          lazySizes.init();
          }); */
 
-        window.dispatchEvent(new CustomEvent('appReady'));
-        console.log('App is Ready');
-
-    }
-
-    init() {
-        if(indigoConfig.router) {
-            this.initRouter();
-        }
         let App = this;
         App.updateElements();
+        if(indigoConfig.router) {
+            this.initRouter();
+        } else {
+            window.dispatchEvent(new CustomEvent('systemReady'));
+        }
     }
 
     static getCustomElementName(TagName) {
@@ -58,13 +54,13 @@ export class App {
             _self.captureLinks();
 
             // Dispatch the event.
-            window.dispatchEvent(new CustomEvent('routerReady'));
+            window.dispatchEvent(new CustomEvent('systemReady'));
 
         }, function (err) {
             console.log(err);
             console.log('The router couldn\'t be loaded, default navigation.');
             // Dispatch the event.
-            window.dispatchEvent(new CustomEvent('routerReady'));
+            window.dispatchEvent(new CustomEvent('systemReady'));
         });
     }
 
