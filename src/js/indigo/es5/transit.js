@@ -61,12 +61,12 @@
             start: function ($container, $newContent) {
                 System.import('jquery.js').then(function ($) {
                     // Inject the new content
-                    $('body').scrollTop(0);
+                    $(document.body).scrollTop(0);
 
                     $container.html($newContent);
 
                     window.setTimeout(function () {
-                        $('html').removeClass('is-loading').addClass('is-entering');
+                        $(document.documentElement).removeClass('is-loading').addClass('is-entering');
                     }, 100);
 
                     window.setTimeout(function () {

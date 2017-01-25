@@ -24,6 +24,10 @@ System.config({
 window.define = System.amdDefine;
 window.require = window.requirejs = System.amdRequire;
 
+var html = document.documentElement;
+
+html.classList.add('is-loading');
+
 // Create systemReady event
 window.addEventListener('systemReady', function () {
     console.log('System is ready');
@@ -31,9 +35,14 @@ window.addEventListener('systemReady', function () {
 });
 
 // Document is ready, init the app
-document.addEventListener( "DOMContentLoaded", function() {
+window.addEventListener( "load", function() {
 
-    document.documentElement.classList.add('is-entering');
+    html.classList.remove('is-loading');
+    html.classList.add('is-entering');
+    window.setTimeout(function() {
+        document.documentElement.classList.remove('is-entering');
+    }, 500);
+
     console.log('document is ready');
 
     System.import('indigo.js').then(function (exports) {
