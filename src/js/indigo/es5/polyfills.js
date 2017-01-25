@@ -9,12 +9,12 @@
         fjs.parentNode.insertBefore(js, fjs);
     };
     /** Page blocking pofyllis if needed **/
-    ('Promise' in window) || loadScript(window.indigo.dist_url+'/js/es6-promise.auto.js');
-    ('requestAnimationFrame' in window) || loadScript(window.indigo.dist_url+'/js/raf.js');
-    (typeof CustomEvent === 'function') || loadScript(window.indigo.dist_url+'/js/custom-event.js');
-    ('srcset' in document.createElement('img')) || loadScript(window.indigo.dist_url+'/js/picturefill.js');
-    ('dataset' in document.createElement('div')) || loadScript(window.indigo.dist_url+'/js/dataset.js');
-    ('classList' in document.createElement('div')) || loadScript(window.indigo.dist_url+'/js/classList.js');
-    (window.history && window.history.pushState) || loadScript(window.indigo.dist_url+'/js/native.history.js');
-    ('registerElement' in document && 'import' in document.createElement('link') && 'createShadowRoot' in HTMLElement.prototype && 'content' in document.createElement('template')) || loadScript(window.indigo.dist_url+'/js/lite.js');
+    ('Promise' in window) || loadScript(indigoConfig.dist_url+'/js/es6-promise.auto.js');
+    ('requestAnimationFrame' in window) || loadScript(indigoConfig.dist_url+'/js/raf.js');
+    (typeof CustomEvent === 'function') || loadScript(indigoConfig.dist_url+'/js/custom-event.js');
+    ('srcset' in document.createElement('img')) || loadScript(indigoConfig.dist_url+'/js/picturefill.js');
+    ('dataset' in document.createElement('div')) || loadScript(indigoConfig.dist_url+'/js/dataset.js');
+    ('classList' in document.createElement('div')) || loadScript(indigoConfig.dist_url+'/js/classList.js');
+    (window.history && window.history.pushState) || loadScript(indigoConfig.dist_url+'/js/native.history.js');
+    ('registerElement' in document && 'import' in document.createElement('link') && 'createShadowRoot' in HTMLElement.prototype && 'content' in document.createElement('template')) || loadScript(indigoConfig.dist_url+'/js/lite.js');
 }());
