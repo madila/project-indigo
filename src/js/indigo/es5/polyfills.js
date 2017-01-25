@@ -2,7 +2,7 @@
     var doc = document,
         html = doc.documentElement,
         fjs = doc.getElementsByTagName('script')[0];
-    html.className = html.className = 'js';
+    html.className = html.className.replace('no-js', 'js');
     var loadScript = function(url) {
         var js = doc.createElement('script');
         js.src = url;
