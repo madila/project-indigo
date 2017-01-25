@@ -37,8 +37,8 @@ window.addEventListener( "load", function() {
     if(html.classList.contains('is-loading')) {
         html.classList.remove('is-loading');
         html.classList.add('is-entering');
-        window.setTimeout(function () {
-            document.documentElement.classList.remove('is-entering');
+        setTimeout(function () {
+            html.classList.remove('is-entering');
         }, 500);
     }
 
