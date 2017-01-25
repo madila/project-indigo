@@ -65,7 +65,6 @@ System.register([], function (_export, _context) {
                             window.router = director(appRouter.routes).configure(appRouter.routerConfig).init();
                             console.log('Router Initialised as a window global...');
 
-                            document.documentElement.className = 'js';
                             _self.captureLinks();
 
                             // Dispatch the event.
