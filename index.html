@@ -7,28 +7,27 @@
     <title>Welcome to Project Indigo</title>
 
 
-    <script type='text/javascript'>/* <![CDATA[ */var indigoConfig = { 'site_name': 'Project Indigo', 'site_title': 'Welcome to Project Indigo', 'site_url': 'https://olliefordandco.github.io/project-indigo/', 'dist_url': './dist', 'router': false, 'debug': true };/* ]]> */</script>
+    <script type='text/javascript'>/* <![CDATA[ */var indigoConfig = { 'site_name': 'Project Indigo', 'site_title': 'Welcome to Project Indigo', 'site_url': 'https://olliefordandco.github.io/project-indigo/', 'dist_url': './dist', 'router': false, 'debug': false };/* ]]> */</script>
 
 
     <link rel=preconnect href=https://api.esvibe.com crossorigin>
 
 
-    <script src="/project-indigo/dist/js/polyfills.js"></script>
+    <script src="./dist/js/polyfills.js"></script>
 
-    <link href="/project-indigo/dist/css/core.css" rel="stylesheet">
-    <!-- If you want webcomponents, leave this in -->
+    <link href="./dist/css/core.css" rel="stylesheet">
     <link rel="import" href="./dist/components/polymer/polymer.html">
     <link rel="import" href="./dist/components/icomoon-polymer/icomoon-iconset-svg.html">
 
 </head>
 <body unresolved>
 
-    <!-- You need to include data-import and those components you wish to lazyLoad, define the path if it's not on the dist/components folder -->
+
     <nav is="app-sidebar" unresolved="true" data-animate="fadeIn" data-import>
 
     </nav>
 
-    <main is="app-container" data-import unresolved="true" data-animate="fadeIn">
+    <main is="app-container" data-animate="fadeIn" data-import>
         <button is="app-button" data-import unresolved="true" class="pink"><iron-icon icon="icomoon:fitness_center"></iron-icon> Something</button>
         <button is="app-button" unresolved="true" class="purple">Something</button>
         <button is="app-button" unresolved="true" class="green"><iron-icon icon="icomoon:close"></iron-icon> Something</button>
@@ -36,8 +35,8 @@
         <button is="app-button" unresolved="true" class="white">Something</button>
     </main>
 
-    <script type='text/javascript' src='/project-indigo/dist/js/system.src.js'></script>
-    <script type='text/javascript' src="/project-indigo/dist/js/systemjs-config.js"></script>
-    <script type="text/javascript" src="/project-indigo/dist/js/fontLoading.js"></script>
+    <script type='text/javascript' src="./dist/js/system.src.js"></script>
+    <script type='text/javascript' src="./dist/js/systemjs-config.js"></script>
+    <script type="text/javascript" src="./dist/js/fontLoading.js"></script>
 </body>
 </html>

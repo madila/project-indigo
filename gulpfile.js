@@ -16,23 +16,27 @@ var $ = {
     htmlmin: require('gulp-htmlmin'),
     concat: require('gulp-concat'),
     babel: require('gulp-babel'),
-    async: require('async')
+    async: require('async'),
+    replace: require('gulp-replace')
 };
 
 /*
  * Let the magic begin
  */
 
-var fs = require('fs');
-var indigo;
-try {
-    indigo = fs.readFileSync('./../indigo.json');
-} catch (err) {
-    // Here you get the error when the file was not found,
-    // but you also get any other error
-    indigo = JSON.parse(fs.readFileSync('./indigo.json'));
-
+function getIndigoConfig() {
+    var indigo = {};
+    try {
+        indigo = require('./../indigo.json');
+        $.gutil.log('Using custom config');
+    } catch(err) {
+        indigo = require('./indigo.json');
+        $.gutil.log('Using default config');
+    }
+    return indigo;
 }
+
+var indigo = getIndigoConfig();
 
 gulp.task('dev-css', function (cb) {
     $.async.series([
@@ -83,10 +87,10 @@ gulp.task('dev-index', function (cb) {
  */
 
 function compileSass() {
-    return gulp.src('/project-indigo/src/scss/**/*.scss')
+    return gulp.src('./src/scss/**/*.scss')
         .pipe($.plumber())
         .pipe($.sass())
-        .pipe(gulp.dest('/project-indigo/src/css'));
+        .pipe(gulp.dest('./src/css'));
 }
 
 function postCss() {
@@ -99,9 +103,9 @@ function postCss() {
             convertValues: true
         })
     ];
-    return gulp.src('/project-indigo/src/css/**/*.css')
+    return gulp.src('./src/css/**/*.css')
         .pipe($.postcss(processors))
-        .pipe(gulp.dest(indigo.config.dist_url+'/css'));
+        .pipe(gulp.dest(indigo.config.dist_path+'/css'));
 }
 
 /*
@@ -109,12 +113,11 @@ function postCss() {
  */
 
 function jsModules(name) {
-
-        return gulp.src(name)
-            .pipe($.rename(function(path) {
-                path.dirname = 'src/js/'
-            }))
-            .pipe(gulp.dest('./'));
+    return gulp.src(name)
+        .pipe($.rename(function(path) {
+            path.dirname = 'src/js/'
+        }))
+        .pipe(gulp.dest('./'));
 }
 
 /*
@@ -125,7 +128,7 @@ function projectIndigo() {
     return gulp.src('src/js/**/*.js')
         .pipe($.uglify())
         .pipe($.rename(function(path) {
-            path.dirname = 'dist/js/'
+            path.dirname = indigo.config.dist_path+'/js/'
         }))
         .pipe(gulp.dest('./'));
 }
@@ -161,7 +164,7 @@ function webComponents() {
     return gulp.src('./src/components/**/*.html')
         .pipe($.inlinesource())
         .pipe($.htmlmin({collapseWhitespace: true, removeComments: true, removeAttributeQuotes: true, conservativeCollapse: true, minifyJS: true}))
-        .pipe(gulp.dest('./dist/components/'));
+        .pipe(gulp.dest(indigo.config.dist_path+'/components/'));
 }
 
 /*
@@ -172,7 +175,7 @@ function htmlReplace() {
     return gulp.src('./src/index.html')
         .pipe($.htmlreplace({
             "preconnect": {
-                "src" : indigo.config.preconnect,
+                "src": indigo.config.preconnect,
                 "tpl": "<link rel=preconnect href=%s crossorigin>"
             },
             "site_title": {
@@ -180,7 +183,7 @@ function htmlReplace() {
                 "tpl": "<title>%s</title>"
             },
             "settings": {
-                "src" : [[
+                "src": [[
                     indigo.config.site_name,
                     indigo.config.site_title,
                     indigo.config.site_url,
@@ -191,5 +194,8 @@ function htmlReplace() {
                 "tpl": "<script type='text/javascript'>/* <![CDATA[ */var indigoConfig = { 'site_name': '%s', 'site_title': '%s', 'site_url': '%s', 'dist_url': '%s', 'router': %s, 'debug': %s };/* ]]> */</script>"
             }
         }))
-        .pipe(gulp.dest('./'));
+        .pipe($.replace('[dist_url]', indigo.config.dist_url))
+        .pipe($.replace('[site_title]', indigo.config.site_title))
+        .pipe($.replace('[site_name]', indigo.config.site_name))
+        .pipe(gulp.dest(indigo.config.root_path));
 }
