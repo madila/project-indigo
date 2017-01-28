@@ -11,6 +11,7 @@
     "preconnect": ["https://api.esvibe.com"],
     "dist_url": "./dist",
     "root_path": "./",
+    "frontend": true,
     "js": {
       "modules": [
         "node_modules/systemjs/dist/system.js",

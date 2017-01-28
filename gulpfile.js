@@ -41,13 +41,25 @@ var indigo = getIndigoConfig();
 gulp.task('dev-css', function (cb) {
     $.async.series([
         function (next) {
-            compileSass().on('end', next);
+            if(indigo.config.frontend) {
+                compileSass().on('end', next);
+            } else {
+                next();
+            }
         },
         function (next) {
-            postCss().on('end', next);
+            if(indigo.config.frontend) {
+                postCss().on('end', next);
+            } else {
+                next();
+            }
         },
         function (next) {
-            webComponents().on('end', next);
+            if(indigo.config.frontend) {
+                webComponents().on('end', next);
+            } else {
+                next();
+            }
         }
     ], cb);
 });
@@ -172,14 +184,30 @@ function webComponents() {
  */
 
 function htmlReplace() {
+    var frontend_head = '';
+    var frontend_body = '';
+    if(indigo.config.frontend) {
+        frontend_head = '<link href="[dist_url]/css/core.css" rel="stylesheet"> <link rel="import" href="[dist_url]/components/polymer/polymer.html"><link rel="import" href="[dist_url]/components/icomoon-polymer/icomoon-iconset-svg.html">';
+        frontend_body = '<nav is="app-sidebar" unresolved="true" data-animate="fadeIn" data-import></nav> <main is="app-container" data-animate="fadeIn" data-import><button is="app-button" data-import unresolved="true" class="pink"><iron-icon icon="icomoon:fitness_center"></iron-icon> Something</button></main>';
+    }
     return gulp.src('./src/index.html')
+        .pipe($.replace('[frontend_head]', frontend_head))
+        .pipe($.replace('[frontend_body]', frontend_body))
         .pipe($.htmlreplace({
             "preconnect": {
                 "src": indigo.config.preconnect,
                 "tpl": "<link rel=preconnect href=%s crossorigin>"
             },
+            "frontend_head": {
+                "src": indigo.config.preconnect,
+                "tpl": "<link rel=preconnect href=%s crossorigin>"
+            },
+            "frontend_body": {
+                "src": indigo.config.preconnect,
+                "tpl": "<link rel=preconnect href=%s crossorigin>"
+            },
             "site_title": {
-                "src": indigo.config.site_title,
+                "src": indigo.config.site_name+' - '+indigo.config.site_title,
                 "tpl": "<title>%s</title>"
             },
             "settings": {
