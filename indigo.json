@@ -10,6 +10,7 @@
     "site_url" : "https://olliefordandco.github.io/project-indigo/",
     "preconnect": ["https://api.esvibe.com"],
     "dist_url": "./dist",
+    "dist_path": "./dist",
     "root_path": "./",
     "frontend": true,
     "js": {
@@ -22,8 +23,7 @@
         "node_modules/jquery/dist/jquery.js",
         "node_modules/bootstrap/dist/js/bootstrap.js",
         "node_modules/tether/dist/js/tether.js",
-        "node_modules/history.js/scripts/bundled/html4+html5/native.history.js",
-        "node_modules/offline/offline.js",
+        "node_modules/offline-js/offline.js",
         "node_modules/picturefill/dist/picturefill.js",
         "node_modules/lazysizes/lazysizes.js",
         "node_modules/director/build/director.js",
@@ -31,7 +31,8 @@
         "node_modules/raf.js/raf.js",
         "node_modules/webfontloader/webfontloader.js",
         "node_modules/historyjs/scripts/bundled/html4+html5/native.history.js",
-        "node_modules/jquery/dist/jquery.js"
+        "node_modules/jquery/dist/jquery.js",
+        "node_modules/offline/offline.min.js"
       ]
     }
   }

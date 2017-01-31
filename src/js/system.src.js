@@ -1,5 +1,5 @@
 /*
- * SystemJS v0.20.2 Dev
+ * SystemJS v0.20.4 Dev
  */
 (function () {
 'use strict';
@@ -1156,6 +1156,13 @@ function protectedCreateNamespace (bindings) {
   return new ModuleNamespace({ default: bindings, __useDefault: true });
 }
 
+var hasStringTag;
+function isModule (m) {
+  if (hasStringTag === undefined)
+    hasStringTag = typeof Symbol !== 'undefined' && !!Symbol.toStringTag;
+  return m instanceof ModuleNamespace || hasStringTag && Object.prototype.toString.call(m) == '[object Module]';
+}
+
 var CONFIG = createSymbol('loader-config');
 var METADATA = createSymbol('metadata');
 
@@ -1656,10 +1663,10 @@ function decanonicalize (config, key) {
   // plugin
   if (parsed) {
     var pluginKey = decanonicalize.call(this, config, parsed.plugin);
-    return combinePluginParts(config.pluginFirst, coreResolve.call(this, config, parsed.argument, undefined, false), pluginKey);
+    return combinePluginParts(config.pluginFirst, coreResolve.call(this, config, parsed.argument, undefined, false, false), pluginKey);
   }
 
-  return coreResolve.call(this, config, key, undefined, false);
+  return coreResolve.call(this, config, key, undefined, false, false);
 }
 
 function normalizeSync (key, parentKey) {
@@ -1682,7 +1689,7 @@ function normalizeSync (key, parentKey) {
   return packageResolveSync.call(this, config, key, parentMetadata.pluginArgument || parentKey, metadata, parentMetadata, !!metadata.pluginKey);
 }
 
-function coreResolve (config, key, parentKey, doMap) {
+function coreResolve (config, key, parentKey, doMap, packageName) {
   var relativeResolved = resolveIfNotPlain(key, parentKey || baseURI);
 
   // standard URL resolution
@@ -1708,7 +1715,11 @@ function coreResolve (config, key, parentKey, doMap) {
   if (key.substr(0, 6) === '@node/')
     return key;
 
-  return applyPaths(config.baseURL, config.paths, key);
+  var trailingSlash = packageName && key[key.length - 1] !== '/';
+  var resolved = applyPaths(config.baseURL, config.paths, trailingSlash ? key + '/' : key);
+  if (trailingSlash)
+    return resolved.substr(0, resolved.length - 1);
+  return resolved;
 }
 
 function packageResolveSync (config, key, parentKey, metadata, parentMetadata, skipExtensions) {
@@ -1724,7 +1735,7 @@ function packageResolveSync (config, key, parentKey, metadata, parentMetadata, s
     }
   }
 
-  var normalized = coreResolve.call(this, config, key, parentKey, true);
+  var normalized = coreResolve.call(this, config, key, parentKey, true, true);
 
   var pkgConfigMatch = getPackageConfigMatch(config, normalized);
   metadata.packageKey = pkgConfigMatch && pkgConfigMatch.packageKey || getMapMatch(config.packages, normalized);
@@ -1765,7 +1776,7 @@ function packageResolve (config, key, parentKey, metadata, parentMetadata, skipE
       return mapped;
 
     // apply map, core, paths, contextual package map
-    var normalized = coreResolve.call(loader, config, key, parentKey, true);
+    var normalized = coreResolve.call(loader, config, key, parentKey, true, true);
 
     var pkgConfigMatch = getPackageConfigMatch(config, normalized);
     metadata.packageKey = pkgConfigMatch && pkgConfigMatch.packageKey || getMapMatch(config.packages, normalized);
@@ -2512,12 +2523,12 @@ function setConfig (cfg, isEnvConfig) {
       var v = cfg.map[p];
 
       if (typeof v === 'string') {
-        config.map[p] = coreResolve.call(loader, config, v, undefined, false);
+        config.map[p] = coreResolve.call(loader, config, v, undefined, false, false);
       }
 
       // object map
       else {
-        var pkgName = coreResolve.call(loader, config, p, undefined, true);
+        var pkgName = coreResolve.call(loader, config, p, undefined, true, true);
         var pkg = config.packages[pkgName];
         if (!pkg) {
           pkg = config.packages[pkgName] = createPackage();
@@ -2534,7 +2545,7 @@ function setConfig (cfg, isEnvConfig) {
     for (var i = 0; i < cfg.packageConfigPaths.length; i++) {
       var path = cfg.packageConfigPaths[i];
       var packageLength = Math.max(path.lastIndexOf('*') + 1, path.lastIndexOf('/'));
-      var normalized = coreResolve.call(loader, config, path.substr(0, packageLength), undefined, false);
+      var normalized = coreResolve.call(loader, config, path.substr(0, packageLength), undefined, false, false);
       packageConfigPaths[i] = normalized + path.substr(packageLength);
     }
     config.packageConfigPaths = packageConfigPaths;
@@ -2554,8 +2565,7 @@ function setConfig (cfg, isEnvConfig) {
       if (p.match(/^([^\/]+:)?\/\/$/))
         throw new TypeError('"' + p + '" is not a valid package name.');
 
-      var pkgName = coreResolve.call(loader, config, p[p.length -1] !== '/' ? p + '/' : p, undefined, true);
-      pkgName = pkgName.substr(0, pkgName.length - 1);
+      var pkgName = coreResolve.call(loader, config, p, undefined, true, true);
 
       setPkgConfig(config.packages[pkgName] = config.packages[pkgName] || createPackage(), cfg.packages[p], pkgName, false, config);
     }
@@ -2573,7 +2583,7 @@ function setConfig (cfg, isEnvConfig) {
         extend(config.meta[p] = config.meta[p] || {}, cfg.meta[p]);
       }
       else {
-        var resolved = coreResolve.call(loader, config, p, undefined, true);
+        var resolved = coreResolve.call(loader, config, p, undefined, true, true);
         extend(config.meta[resolved] = config.meta[resolved] || {}, cfg.meta[p]);
       }
     }
@@ -2589,9 +2599,9 @@ function setConfig (cfg, isEnvConfig) {
       continue;
     if (envConfigNames.indexOf(c) !== -1)
       continue;
-    // warn.call(config, 'Setting custom config option `System.config({ ' + c + ': ... })` is deprecated. Avoid custom config options or set SystemJS.' + c + ' = ... directly.');
 
-    config[c] = cfg[c];
+    // warn.call(config, 'Setting custom config option `System.config({ ' + c + ': ... })` is deprecated. Avoid custom config options or set SystemJS.' + c + ' = ... directly.');
+    loader[c] = cfg[c];
   }
 
   envSet(loader, cfg, function(cfg) {
@@ -3921,6 +3931,7 @@ SystemJSLoader$1.prototype.set = function (key, module) {
 SystemJSLoader$1.prototype.newModule = function (bindings) {
   return new ModuleNamespace(bindings);
 };
+SystemJSLoader$1.prototype.isModule = isModule;
 
 // ensure System.register and System.registerDynamic decanonicalize
 SystemJSLoader$1.prototype.register = function (key, deps, declare) {
@@ -3935,7 +3946,7 @@ SystemJSLoader$1.prototype.registerDynamic = function (key, deps, executingRequi
   return RegisterLoader$1.prototype.registerDynamic.call(this, key, deps, executingRequire, execute);
 };
 
-SystemJSLoader$1.prototype.version = "0.20.2 Dev";
+SystemJSLoader$1.prototype.version = "0.20.4 Dev";
 
 var System = new SystemJSLoader$1();
 

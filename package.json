@@ -43,21 +43,19 @@
     "gulp-svg2png": "^1.0.0",
     "gulp-uglify": "^1.5.4",
     "gulp-util": "^3.0.7",
-    "history.js": "^1.*",
     "historyjs": "^1.8.0-b2",
     "jquery": "^3.1.1",
     "jshint": "^2.9.3",
     "lazysizes": "~2.0.0",
     "merge-stream": "^1.0.0",
     "offline": "0.0.1",
+    "offline-js": "^0.7.18",
     "picturefill": "^3.0",
     "pump": "^1.0.1",
     "raf.js": "0.0.4",
     "systemjs": "^0.*",
-    "webcomponents-lite": "^0.6.0",
     "webcomponentsjs": "^1.0.2",
-    "webfontloader": "^1.6.27",
-    "x-tag": "1.5.*"
+    "webfontloader": "^1.6.27"
   },
   "dependencies": {}
 }
