@@ -27,7 +27,7 @@ var $ = {
 function getIndigoConfig() {
     var indigo = {};
     try {
-        indigo = require('./../indigo.json');
+        indigo = require('./../../indigo.json');
         $.gutil.log('Using custom config');
     } catch(err) {
         indigo = require('./indigo.json');
