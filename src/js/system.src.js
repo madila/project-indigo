@@ -1,5 +1,5 @@
 /*
- * SystemJS v0.20.4 Dev
+ * SystemJS v0.20.9 Dev
  */
 (function () {
 'use strict';
@@ -45,9 +45,11 @@ else if (typeof location != 'undefined') {
 // sanitize out the hash and querystring
 if (baseURI) {
   baseURI = baseURI.split('#')[0].split('?')[0];
-  baseURI = baseURI.substr(0, baseURI.lastIndexOf('/') + 1);
+  var slashIndex = baseURI.lastIndexOf('/');
+  if (slashIndex !== -1)
+    baseURI = baseURI.substr(0, slashIndex + 1);
 }
-else if (typeof process != 'undefined' && process.cwd) {
+else if (typeof process !== 'undefined' && process.cwd) {
   baseURI = 'file://' + (isWindows ? '/' : '') + process.cwd();
   if (isWindows)
     baseURI = baseURI.replace(/\\/g, '/');
@@ -94,10 +96,11 @@ function LoaderError__Check_error_message_for_loader_stack (childErr, newMessage
 /*
  * Optimized URL normalization assuming a syntax-valid URL parent
  */
-function throwResolveError () {
+function throwResolveError (relUrl, parentUrl) {
   throw new RangeError('Unable to resolve "' + relUrl + '" to ' + parentUrl);
 }
 function resolveIfNotPlain (relUrl, parentUrl) {
+  relUrl = relUrl.trim();
   var parentProtocol = parentUrl && parentUrl.substr(0, parentUrl.indexOf(':') + 1);
 
   var firstChar = relUrl[0];
@@ -497,11 +500,24 @@ var REGISTER_INTERNAL = createSymbol('register-internal');
 function RegisterLoader$1 () {
   Loader.call(this);
 
+  var registryDelete = this.registry.delete;
+  this.registry.delete = function (key) {
+    var deleted = registryDelete.call(this, key);
+
+    // also delete from register registry if linked
+    if (records.hasOwnProperty(key) && !records[key].linkRecord)
+      delete records[key];
+
+    return deleted;
+  };
+
+  var records = {};
+
   this[REGISTER_INTERNAL] = {
     // last anonymous System.register call
     lastRegister: undefined,
     // in-flight es module load records
-    records: {}
+    records: records
   };
 
   // tracing
@@ -740,7 +756,7 @@ function resolveInstantiateDep (loader, key, parentKey, registry, state, traceDe
   return loader.resolve(key, parentKey)
   .then(function (resolvedKey) {
     if (traceDepMap)
-      traceDepMap[key] = key;
+      traceDepMap[key] = resolvedKey;
 
     // normalization shortpaths for already-normalized key
     var load = state.records[resolvedKey];
@@ -822,7 +838,7 @@ function instantiateDeps (loader, load, link, registry, state, seen) {
     var depsInstantiatePromises = Array(link.dependencies.length);
 
     for (var i = 0; i < link.dependencies.length; i++)
-      depsInstantiatePromises[i] = resolveInstantiateDep(loader, link.dependencies[i], load.key, registry, state, loader.trace && (link.depMap = {}));
+      depsInstantiatePromises[i] = resolveInstantiateDep(loader, link.dependencies[i], load.key, registry, state, loader.trace && link.depMap || (link.depMap = {}));
 
     return Promise.all(depsInstantiatePromises);
   })
@@ -1089,11 +1105,18 @@ function doEvaluate (loader, load, link, registry, state, seen) {
       if (module.exports !== moduleObj.default)
         moduleObj.default = module.exports;
 
-      // __esModule flag extension support
-      if (moduleObj.default && moduleObj.default.__esModule)
-        for (var p in moduleObj.default)
-          if (Object.hasOwnProperty.call(moduleObj.default, p) && p !== 'default')
-            moduleObj[p] = moduleObj.default[p];
+      var moduleDefault = moduleObj.default;
+
+      // __esModule flag extension support via lifting
+      if (moduleDefault && moduleDefault.__esModule) {
+        if (moduleObj.__useDefault)
+          delete moduleObj.__useDefault;
+        for (var p in moduleDefault) {
+          if (Object.hasOwnProperty.call(moduleDefault, p))
+            moduleObj[p] = moduleDefault[p];
+        }
+        moduleObj.__esModule = true;
+      }
     }
   }
 
@@ -1284,7 +1307,8 @@ if (isBrowser) {
       loadingScripts[i].err(msg);
       return;
     }
-    onerror.apply(this, arguments);
+    if (onerror)
+      onerror.apply(this, arguments);
   };
 }
 
@@ -1855,7 +1879,6 @@ function setMeta (config, key, metadata) {
     var meta = {};
     if (metadata.packageConfig.meta) {
       var bestDepth = 0;
-
       getMetaMatches(metadata.packageConfig.meta, subPath, function (metaPattern, matchMeta, matchDepth) {
         if (matchDepth > bestDepth)
           bestDepth = matchDepth;
@@ -1866,7 +1889,7 @@ function setMeta (config, key, metadata) {
     }
 
     // format
-    if (metadata.packageConfig.format && !metadata.pluginKey)
+    if (metadata.packageConfig.format && !metadata.pluginKey && !metadata.load.loader)
       metadata.load.format = metadata.load.format || metadata.packageConfig.format;
   }
 }
@@ -2565,7 +2588,8 @@ function setConfig (cfg, isEnvConfig) {
       if (p.match(/^([^\/]+:)?\/\/$/))
         throw new TypeError('"' + p + '" is not a valid package name.');
 
-      var pkgName = coreResolve.call(loader, config, p, undefined, true, true);
+      var pkgName = coreResolve.call(loader, config, p[p.length -1] !== '/' ? p + '/' : p, undefined, true, true);
+      pkgName = pkgName.substr(0, pkgName.length - 1);
 
       setPkgConfig(config.packages[pkgName] = config.packages[pkgName] || createPackage(), cfg.packages[p], pkgName, false, config);
     }
@@ -3218,7 +3242,7 @@ function instantiate$1 (key, processAnonRegister) {
         warn.call(config, 'scriptLoad not supported for "' + key + '"');
       }
     }
-    else if (metadata.load.scriptLoad !== false && supportsScriptLoad) {
+    else if (metadata.load.scriptLoad !== false && !metadata.load.pluginKey && supportsScriptLoad) {
       // auto script load AMD, global without deps
       if (!metadata.load.deps && !metadata.load.globals &&
           (metadata.load.format === 'system' || metadata.load.format === 'register' || metadata.load.format === 'global' && metadata.load.exports))
@@ -3240,7 +3264,7 @@ function instantiate$1 (key, processAnonRegister) {
       scriptLoad(key, metadata.load.crossOrigin, metadata.load.integrity, function () {
         if (!processAnonRegister()) {
           metadata.load.format = 'global';
-          var globalValue = getGlobalValue(metadata.load.exports);
+          var globalValue = metadata.load.exports && getGlobalValue(metadata.load.exports);
           loader.registerDynamic([], false, function () {
             setMetaEsModule(metadata, globalValue);
             return globalValue;
@@ -3253,7 +3277,7 @@ function instantiate$1 (key, processAnonRegister) {
     });
   })
   .then(function (instantiated) {
-    loader[METADATA][key] = undefined;
+    delete loader[METADATA][key];
     return instantiated;
   });
 }
@@ -3325,7 +3349,7 @@ function runFetchPipeline (loader, key, metadata, processAnonRegister, wasm) {
     if (!metadata.pluginModule || !metadata.pluginModule.locate)
       return;
 
-    return metadata.pluginModule.locate.call(loader, metadata.pluginLoad)
+    return Promise.resolve(metadata.pluginModule.locate.call(loader, metadata.pluginLoad))
     .then(function (address) {
       if (address)
         metadata.pluginLoad.address = address;
@@ -3337,10 +3361,11 @@ function runFetchPipeline (loader, key, metadata, processAnonRegister, wasm) {
     if (!metadata.pluginModule)
       return fetch$1(key, metadata.load.authorization, metadata.load.integrity, wasm);
 
-    if (!metadata.pluginModule.fetch)
-      return fetch$1(metadata.pluginArgument, metadata.load.authorization, metadata.load.integrity, wasm);
-
     wasm = false;
+
+    if (!metadata.pluginModule.fetch)
+      return fetch$1(metadata.pluginLoad.address, metadata.load.authorization, metadata.load.integrity, false);
+
     return metadata.pluginModule.fetch.call(loader, metadata.pluginLoad, function (load) {
       return fetch$1(load.address, metadata.load.authorization, metadata.load.integrity, false);
     });
@@ -3356,11 +3381,12 @@ function runFetchPipeline (loader, key, metadata, processAnonRegister, wasm) {
     // detect by leading bytes
     if (bytes[0] === 0 && bytes[1] === 97 && bytes[2] === 115) {
       return WebAssembly.compile(bytes).then(function (m) {
-        /* TODO handle imports when `WebAssembly.Module.imports` is implemented
-        if (WebAssembly.Module.imports) {
-          var deps = [];
-          var setters = [];
-          var importObj = {};
+        var deps = [];
+        var setters = [];
+        var importObj = {};
+
+        // we can only set imports if supported (eg Safari doesnt support)
+        if (WebAssembly.Module.imports)
           WebAssembly.Module.imports(m).forEach(function (i) {
             var key = i.module;
             setters.push(function (m) {
@@ -3369,18 +3395,15 @@ function runFetchPipeline (loader, key, metadata, processAnonRegister, wasm) {
             if (deps.indexOf(key) === -1)
               deps.push(key);
           });
-          loader.register(deps, function (_export) {
-            return {
-              setters: setters,
-              execute: function () {
-                _export(new WebAssembly.Instance(m, importObj).exports);
-              }
-            };
-          });
-        }*/
-        // for now we just load WASM without dependencies
-        var wasmModule = new WebAssembly.Instance(m, {});
-        return loader.newModule(wasmModule.exports);
+        loader.register(deps, function (_export) {
+          return {
+            setters: setters,
+            execute: function () {
+              _export(new WebAssembly.Instance(m, importObj).exports);
+            }
+          };
+        });
+        processAnonRegister();
       });
     }
 
@@ -3665,11 +3688,11 @@ function transpile (loader, source, key, metadata, processAnonRegister) {
 
     // translate hooks means this is a transpiler plugin instead of a raw implementation
     if (!transpiler.translate)
-      throw new Error(loader.transpier + ' is not a valid transpiler plugin.');
+      throw new Error(loader.transpiler + ' is not a valid transpiler plugin.');
 
     // if transpiler is the same as the plugin loader, then don't run twice
     if (transpiler === metadata.pluginModule)
-      return load.source;
+      return source;
 
     // convert the source map into an object for transpilation chaining
     if (typeof metadata.load.sourceMap === 'string')
@@ -3946,7 +3969,7 @@ SystemJSLoader$1.prototype.registerDynamic = function (key, deps, executingRequi
   return RegisterLoader$1.prototype.registerDynamic.call(this, key, deps, executingRequire, execute);
 };
 
-SystemJSLoader$1.prototype.version = "0.20.4 Dev";
+SystemJSLoader$1.prototype.version = "0.20.9 Dev";
 
 var System = new SystemJSLoader$1();
 

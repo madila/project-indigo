@@ -145,7 +145,7 @@ System.register([], function (_export, _context) {
                     key: 'animateElement',
                     value: function animateElement(element) {
                         window.requestAnimationFrame(function () {
-                            var animate = element.dataset.animate;
+                            var animate = element.dataset.animate == undefined ? 'default' : element.dataset.animate;
                             if (element == undefined) return false;
                             if (animate) element.classList.add('animate--' + animate);
                             element.removeAttribute("unresolved");
